@@ -1,18 +1,79 @@
+# name: build weapp ci
+
+# on:
+#   # 监听PR
+#   pull_request:
+#     types:
+#       - closed
+#     branches:
+#       - dev
+#       - pre
+#       - main
+
+# jobs:
+#   if_merged:
+#     if: github.event.pull_request.merged == true
+#     # 选择运行在ubuntu
+#     runs-on: ubuntu-latest
+
+#     # 配置下私有值
+#     strategy:
+#       matrix:
+#         # 使用18.18.0版本
+#         node-version: [18.18.0]
+
+#     steps:
+#       # 把代码checkout下来
+#     - uses: actions/checkout@v2
+
+#       # 安装node
+#     - name: Use Node.js ${{ matrix.node-version }}
+#       uses: actions/setup-node@v2.5.1
+#       with:
+#         node-version: ${{ matrix.node-version }}
+
+#       # 安装pnpm
+#     - name: Install Pnpm
+#       run: npm i -g pnpm
+
+#       # 安装依赖
+#     - name: Install Dependencies
+#       run: pnpm i
+
+#       # 安装upload Dependencies
+#     - name: Install UploadDist Dependencies
+#       run: pnpm uploadInstall
+
+#       # 执行release脚本
+#     - name: release 脚本执行
+#       run: pnpm release
+
+#       # 构建小程序
+#     - name: Build weapp
+#       run: pnpm build:weapp
+
+#     # 从 secrets.UPLOAD_PRIVATE_KEY 生成私钥文件
+#     # see Project/Settings/Secrets
+#     - name: Generate private key for upload
+#       run: echo "$UPLOAD_PRIVATE_KEY" > private.key
+#       env:
+#         UPLOAD_PRIVATE_KEY: ${{ secrets.UPLOAD_PRIVATE_KEY }}
+#     # 上传代码
+#     - name: Upload to WeChat
+#       run: pnpm uploadDist
 name: build weapp ci
 
 on:
   # 监听PR
-  pull_request:
-    types:
-      - closed
+  push:
     branches:
       - dev
       - pre
       - main
 
 jobs:
-  if_merged:
-    if: github.event.pull_request.merged == true
+  build:
+    if: github.event_name == 'push' && github.event.pull_request
     # 选择运行在ubuntu
     runs-on: ubuntu-latest
 
