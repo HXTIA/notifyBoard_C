@@ -3,10 +3,16 @@ name: build weapp ci
 on:
   # 监听PR
   pull_request:
-    branches: [ dev, pre, main ]
+    types:
+      - closed
+    branches:
+      - dev
+      - pre
+      - main
 
 jobs:
-  build:
+  if_merged:
+    if: github.event.pull_request.merged == true
     # 选择运行在ubuntu
     runs-on: ubuntu-latest
 
