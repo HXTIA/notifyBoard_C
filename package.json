@@ -1,8 +1,8 @@
 {
   "name": "notifyBoard_C",
-  "version": "1.0.1",
+  "version": "0.9.12",
   "private": true,
-  "description": "blog",
+  "description": "notifyBoard_C",
   "templateInfo": {
     "name": "default",
     "typescript": true,
@@ -27,7 +27,9 @@
     "dev:qq": "npm run build:qq -- --watch",
     "dev:jd": "npm run build:jd -- --watch",
     "dev:quickapp": "npm run build:quickapp -- --watch",
-    "release": "sh ./scripts/release.sh"
+    "release": "sh ./scripts/release.sh",
+    "uploadDist": "node ./scripts/uploadDist/upload.js",
+    "uploadInstall": "cd ./scripts/uploadDist && npm install"
   },
   "browserslist": [
     "last 3 versions",
