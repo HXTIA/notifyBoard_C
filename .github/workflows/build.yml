@@ -1,14 +1,16 @@
 name: build weapp ci
 
 on:
-  # 监听PUSH和PR
+  # 监听PR
   push:
-    branches: [ main, pre ]
-  pull_request:
-    branches: [ main ]
+    branches:
+      - dev
+      - pre
+      - main
 
 jobs:
   build:
+    if: github.event_name == 'push' && contains(github.event.head_commit.message, 'Merge pull request')
     # 选择运行在ubuntu
     runs-on: ubuntu-latest
 
@@ -40,6 +42,10 @@ jobs:
     - name: Install UploadDist Dependencies
       run: pnpm uploadInstall
 
+      # 执行release脚本
+    - name: release 脚本执行
+      run: pnpm release
+
       # 构建小程序
     - name: Build weapp
       run: pnpm build:weapp
@@ -53,3 +59,4 @@ jobs:
     # 上传代码
     - name: Upload to WeChat
       run: pnpm uploadDist
+

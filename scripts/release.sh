@@ -40,27 +40,16 @@ main() {
     echo "release前预检～\n"
     checker
 
-    # 创建临时文件
-    echo "{}" > $SCRIPT_DIR/temp.json
-
-    echo "===== changelog & commit =====\n"
-
-    echo "1. 更新版本信息.....\n"
     updateVersion
 
-    echo "2. 生成changelog.....\n"
     logGenertor
 
-    echo "3. git actions\n"
     gitHelper
 
     # echo "4. npm publish\n"
     # publisher
-    
-    echo "✅：release success🏅！！"
 
-    # 删除临时文件
-    rm $SCRIPT_DIR/temp.json
+    echo "\n✅：release success🏅！！"
 }
 
 main
