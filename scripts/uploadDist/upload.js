@@ -6,6 +6,7 @@ const cwd = process.cwd()
 const { version } = require(path.resolve(cwd + '/package.json'))
 
 const ROBOT_MAP = {
+  'dev': 1,
   'pre': 2,
   'main': 3
 }
