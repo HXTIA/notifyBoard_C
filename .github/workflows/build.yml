@@ -3,7 +3,7 @@ name: build weapp ci
 on:
   # 监听PUSH和PR
   push:
-    branches: [ pre ]
+    branches: [ ]
   pull_request:
     branches: [ dev, pre, main ]
 
