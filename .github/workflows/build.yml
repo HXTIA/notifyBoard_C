@@ -73,7 +73,7 @@ on:
 
 jobs:
   build:
-    if: github.event_name == 'push' && github.event.pull_request
+    if: github.event.pull_request.merged == true
     # 选择运行在ubuntu
     runs-on: ubuntu-latest
 
