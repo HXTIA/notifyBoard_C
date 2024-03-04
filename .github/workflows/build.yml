@@ -1,7 +1,7 @@
 name: build weapp ci
 
 on:
-  # 监听PR
+  # 监听push
   push:
     branches:
       - dev
