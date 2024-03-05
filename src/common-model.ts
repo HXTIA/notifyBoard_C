@@ -1,21 +1,28 @@
 import { createModel } from '@rematch/core'
 import { RootModel } from './models'
+import { getStorage, setStorage } from './utils/storage';
 
-export interface CommonState {
-  name?: string
-  age?: number | string
+export interface IUserInfo {
+  token?: string;
+  username?: string;
+  userActor?: string;
 }
 
-export const defaultValue: CommonState = {
-  name: 'SG',
-  age: 21,
+export interface ICommonState {
+  userInfo: IUserInfo;
+}
+
+/** 默认store值 从storage中激活 */
+export const defaultValue: ICommonState = {
+  userInfo: getStorage('userInfo')
 }
 
 export const common = createModel<RootModel>()({
   state: defaultValue,
   reducers: {
-    SET_Userinfo: (state: CommonState, newUserinfo: CommonState) => {
-      state = newUserinfo
+    update_UserInfo: (state: ICommonState, newUserinfo: IUserInfo) => {
+      state.userInfo = newUserinfo
+      setStorage('userInfo', newUserinfo)
       return state
     },
   },
