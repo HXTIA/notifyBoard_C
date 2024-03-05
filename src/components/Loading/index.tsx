@@ -1,14 +1,14 @@
 import { Canvas, View } from '@tarojs/components'
 import { useDidShow } from '@tarojs/taro'
-import { $, loadAnimation } from '../../utils/animation'
+import loading1 from 'src/static/SVG/loading1.json'
+import loading2 from 'src/static/SVG/loading2.json'
+import loading3 from 'src/static/SVG/loading3.json'
+import loading4 from 'src/static/SVG/loading4.json'
+import loading5 from 'src/static/SVG/loading5.json'
+import loading6 from 'src/static/SVG/loading6.json'
+import loading7 from 'src/static/SVG/loading7.json'
+import { $, loadAnimation } from 'src/utils'
 import './index.module.scss'
-import loading1 from '../../static/SVG/loading1.json'
-import loading2 from '../../static/SVG/loading2.json'
-import loading3 from '../../static/SVG/loading3.json'
-import loading4 from '../../static/SVG/loading4.json'
-import loading5 from '../../static/SVG/loading5.json'
-import loading6 from '../../static/SVG/loading6.json'
-import loading7 from '../../static/SVG/loading7.json'
 
 const LOADING_AVG = [loading1, loading2, loading3, loading4, loading5, loading6, loading7]
 

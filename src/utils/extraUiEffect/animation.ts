@@ -1,21 +1,16 @@
 import Taro from '@tarojs/taro'
 import lottie from 'lottie-miniprogram'
 
+/** dom选择器 */
 export const $ = (selector: string) => {
   return Taro.createSelectorQuery().select(selector).node()
 }
 
-interface LoadAnimationParameter {
-  renderer?: 'canvas';
-  loop?: boolean | number;
-  autoplay?: boolean;
-  name?: string;
-  rendererSettings?: any;
-  animationData?: any;
-  path?: string;
-}
+/** lottie animation 入参 */
+export type TLoadAnimationParameter = Parameters<typeof lottie.loadAnimation>[0]
 
-export const loadAnimation = (node: Taro.SelectorQuery, options: LoadAnimationParameter) => {
+/** lottie utils */
+export const loadAnimation = (node: Taro.SelectorQuery, options: TLoadAnimationParameter) => {
   node.exec((res: any) => {
     const canvas = res[0].node
     const context = canvas.getContext('2d')
@@ -33,5 +28,3 @@ export const loadAnimation = (node: Taro.SelectorQuery, options: LoadAnimationPa
     return lottieIns
   })
 }
-
-export const ls = () => { }

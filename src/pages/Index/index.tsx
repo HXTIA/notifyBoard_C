@@ -4,14 +4,20 @@ import { Button } from '@taroify/core'
 import Taro from '@tarojs/taro'
 import { URL } from 'src/utils/const'
 import { RootState } from 'src/store'
+import { showLoading, showToast } from 'src/utils/index'
 import './index.scss'
 
 const Index = () => {
   const state = useSelector((state1: RootState) => state1.common)
 
+  // easyLoading.show("加载中...")
+  // easyLoading.hide()
+  // easyToast("你好")
+  showToast({title:"好好好",icon:"success"})
+
   return (
     <View className='index_wrapper'>
-      <Text>Hello world1212121!-- {state.age}</Text>
+      <Text>Hello world1212121!-- {state.userInfo.token}</Text>
       <Button onClick={() => Taro.navigateTo({ url: URL.Detail + `?id=${12}` })}>去详细界面</Button>
     </View>
   )
