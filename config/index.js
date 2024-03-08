@@ -26,10 +26,10 @@ const config = {
     type: 'webpack5',
     /** 开启bundle预编译提高二次编译速度 */
     prebundle: {
-      enable: true,
+      enable: false,
       /** 缓存目录 */
-      cacheDir: pathFn('.cache'),
-      timings: true
+      // cacheDir: pathFn('.cache'),
+      // timings: true
     }
   },
   cache: {
