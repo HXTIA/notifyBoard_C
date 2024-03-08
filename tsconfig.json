@@ -22,7 +22,12 @@
     "typeRoots": [
       "node_modules/@types"
     ],
-    "jsxImportSource": "react"
+    "jsxImportSource": "react",
+    "paths": {
+      "src/*": [
+        "./src/*"
+      ]
+    }
   },
   "include": [
     "./src",
