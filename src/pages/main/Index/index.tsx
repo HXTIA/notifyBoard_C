@@ -4,6 +4,8 @@ import { Button } from '@taroify/core'
 import Taro from '@tarojs/taro'
 import { URL } from 'src/utils/const'
 import { RootState } from 'src/store'
+import Loading from 'src/components/baseBulitComp/Loading'
+
 import './index.scss'
 
 const Index = () => {
@@ -13,6 +15,7 @@ const Index = () => {
     <View className='index_wrapper'>
       <Text>Hello world1212121!-- {state.age}</Text>
       <Button onClick={() => Taro.navigateTo({ url: URL.Detail + `?id=${12}` })}>去详细界面</Button>
+      <Loading isShow={false} />
     </View>
   )
 }
