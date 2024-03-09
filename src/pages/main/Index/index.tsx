@@ -19,6 +19,7 @@ const Index = () => {
     <View className='index_wrapper'>
       <Text>Hello world1212121!-- {state.userInfo.token}</Text>
       <Button onClick={() => Taro.navigateTo({ url: URL.Detail + `?id=${12}` })}>去详细界面</Button>
+      <Loading isShow={false} />
     </View>
   )
 }
