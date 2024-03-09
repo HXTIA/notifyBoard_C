@@ -5,6 +5,7 @@ import Taro from '@tarojs/taro'
 import { URL } from 'src/utils/const'
 import { RootState } from 'src/store'
 import { showLoading, showToast } from 'src/utils/index'
+import Loading from 'src/components/baseBuiltComp/Loading'
 import './index.scss'
 
 const Index = () => {

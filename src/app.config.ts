@@ -4,7 +4,6 @@ export default defineAppConfig({
     'pages/Group/index',
     'pages/My/index',
     'pages/Manage/index',
-    // 'pages/Detail/index',
     'pages/Group/Message/index',
     'pages/Group/Editor/index',
     'pages/Group/Hot/index',
@@ -87,5 +86,6 @@ export default defineAppConfig({
       },
     ],
   },
-  darkmode: true,
+  /** 不适配黑暗模式 */
+  darkmode: false,
 })
