@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { View, Text } from '@tarojs/components'
-import FORBIDDEN from 'src/components/baseBulitComp/FORBIDDEN/index'
+import FORBIDDEN from 'src/components/FORBIDDEN/index'
 
 const Index = () => {
   const [state, setState] = useState<boolean>(false)

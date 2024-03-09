@@ -1,10 +1,6 @@
 // eslint-disable-next-line import/no-commonjs
 const path = require('path')
 
-const resolve = path.resolve
-const pathFn = (rPath) => resolve(__dirname, '../', rPath)
-
-
 const config = {
   projectName: 'notifyBoard_C',
   date: '2024-3-1',
@@ -15,33 +11,23 @@ const config = {
     828: 1.81 / 2,
   },
   alias: {
-    src: pathFn('src'),
+    src: path.resolve(__dirname, '..', 'src'),
+    // '@/components': resolve(__dirname, '..', 'src/components'),
+    // '@/pages': resolve(__dirname, '..', 'src/pages'),
+    // '@/utils': resolve(__dirname, '..', 'src/utils'),
   },
   sourceRoot: 'src',
   outputRoot: 'dist',
   plugins: [],
   defineConstants: {},
-  framework: 'react',
-  compiler: {
-    type: 'webpack5',
-    /** 开启bundle预编译提高二次编译速度 */
-    prebundle: {
-      enable: false,
-      /** 缓存目录 */
-      // cacheDir: pathFn('.cache'),
-      // timings: true
-    }
+  copy: {
+    patterns: [],
+    options: {},
   },
+  framework: 'react',
+  compiler: 'webpack5',
   cache: {
-    enable: false,
-    /** 构建依赖，当config内容发生变化刷新缓存 */
-    // buildDependencies: {
-    //   config: [
-    //     pathFn('./src/app.tsx'),
-    //     pathFn('./src/app.config.ts')
-    //   ]
-    //   // config: [path.join(appPath, 'config/index.js')],
-    // },
+    enable: false, // Webpack 持久化缓存配置，建议开启。默认配置请参考：https://docs.taro.zone/docs/config-detail#cache
   },
   mini: {
     postcss: {
@@ -61,6 +47,31 @@ const config = {
           namingPattern: 'module', // 转换模式，取值为 global/module
           generateScopedName: '[name]__[local]___[hash:base64:5]',
         },
+      },
+    },
+  },
+  h5: {
+    publicPath: '/',
+    staticDirectory: 'static',
+    postcss: {
+      autoprefixer: {
+        enable: true,
+        config: {},
+      },
+      cssModules: {
+        enable: false, // 默认为 false，如需使用 css modules 功能，则设为 true
+        config: {
+          namingPattern: 'module', // 转换模式，取值为 global/module
+          generateScopedName: '[name]__[local]___[hash:base64:5]',
+        },
+      },
+    },
+  },
+  rn: {
+    appName: 'taroDemo',
+    postcss: {
+      cssModules: {
+        enable: false, // 默认为 false，如需使用 css modules 功能，则设为 true
       },
     },
   },

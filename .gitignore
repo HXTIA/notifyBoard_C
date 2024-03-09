@@ -3,4 +3,3 @@ dist/
 .swc/
 DS_Store
 temp.json
-.cache/

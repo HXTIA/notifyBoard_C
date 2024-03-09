@@ -1,10 +1,10 @@
 export default defineAppConfig({
   pages: [
-    'pages/main/Index/index',
+    'pages/Index/index',
     'pages/Group/index',
     'pages/My/index',
     'pages/Manage/index',
-    // 'pages/Detail/index',
+    'pages/Detail/index',
     'pages/Group/Message/index',
     'pages/Group/Editor/index',
     'pages/Group/Hot/index',
@@ -13,42 +13,6 @@ export default defineAppConfig({
     'pages/Manage/Discuss/index',
     'pages/Manage/User/index',
     'pages/Manage/Topic/index',
-  ],
-  subPackages: [
-    // {
-    //   root: 'pages/Group',
-    //   pages: [
-    //     'index',
-    //     'Message/index',
-    //     'Hot/index',
-    //     'Editor/index'
-    //   ]
-    // },
-    {
-      root: 'pages/Detail',
-      pages: [
-        'index'
-      ],
-      // 注册为独立分包
-      independent: true
-    },
-    // {
-    //   root: 'pages/Manage',
-    //   pages: [
-    //     'index',
-    //     'Discuss/index',
-    //     'Topic/index',
-    //     'User/index'
-    //   ]
-    // },
-    // {
-    //   root: 'pages/My',
-    //   pages: [
-    //     'index',
-    //     'Edit/index',
-    //     'Message/index'
-    //   ]
-    // }
   ],
   window: {
     backgroundTextStyle: 'dark',
@@ -62,7 +26,7 @@ export default defineAppConfig({
     selectedColor: '#f46a34',
     list: [
       {
-        pagePath: 'pages/main/Index/index',
+        pagePath: 'pages/Index/index',
         text: '',
         iconPath: './static/tabbarIcon/home.png',
         selectedIconPath: './static/tabbarIcon/home_active.png',

@@ -1,4 +1,4 @@
-@import 'src/app.scss';
+@import '../../app.scss';
 
 .LoadingContainer {
   display: flex;
@@ -15,6 +15,7 @@
     justify-content: space-around;
     width: 80%;
     height: 70%;
+
 
     &__canvas {
       // width: 100%;

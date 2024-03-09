@@ -1,6 +1,6 @@
 import { Provider } from 'react-redux'
 import { useError } from '@tarojs/taro'
-import Error from 'src/components/baseBulitComp/Error'
+import Error from './components/Error'
 import { store } from './store'
 import './app.scss'
 
