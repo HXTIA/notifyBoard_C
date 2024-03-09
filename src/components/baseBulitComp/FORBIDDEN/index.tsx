@@ -1,7 +1,7 @@
 import { Canvas, CoverView, View } from '@tarojs/components'
 import { useDidShow } from '@tarojs/taro'
 import FORBIDDEN from 'src/static/SVG/forbidden.json'
-import { $, loadAnimation } from '../../utils/animation'
+import { $, loadAnimation } from '../../../utils/animation'
 import './index.module.scss'
 
 const Index = () => {
