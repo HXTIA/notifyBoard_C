@@ -1,6 +1,6 @@
 import { Canvas, View } from '@tarojs/components'
 import { useDidShow } from '@tarojs/taro'
-import { $, loadAnimation } from 'src/utils/animation'
+import { $, loadAnimation } from 'src/utils'
 import loading1 from 'src/static/SVG/loading1.json'
 import loading2 from 'src/static/SVG/loading2.json'
 import loading3 from 'src/static/SVG/loading3.json'

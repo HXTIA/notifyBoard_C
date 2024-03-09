@@ -1,9 +1,9 @@
 import { Canvas, CoverView, View } from '@tarojs/components'
 import { Button } from '@taroify/core'
 import { useDidShow } from '@tarojs/taro'
-import { $, loadAnimation } from 'src/utils/animation'
+import { $, loadAnimation } from 'src/utils'
+import NoFound from 'src/static/SVG/404.json'
 import './index.module.scss'
-import NoFound from '../../../static/SVG/404.json'
 
 const Index = () => {
   useDidShow(() => {
