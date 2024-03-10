@@ -1,5 +1,5 @@
 /**
- * 提取普通枚举的key
+ * 提取枚举或对象的key
  * ```
  *  使用：type keys = DefinedEnumKeys<typeof TTaro>
  * ```

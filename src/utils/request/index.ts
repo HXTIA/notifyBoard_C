@@ -1,11 +1,12 @@
+import { TGeneralObject } from "src/types"
 import { DefinedEnumKeys } from "../types/enumHelper"
 import { request } from "./business"
 import { BUSINESS_API_ROOT_PATH, BUSINESS_DOMAIN } from "./constants"
 import { TCustomRequestParams } from "./request"
 
 /** get请求 */
-export const Get = <T>({ url, silent, data }: TCustomRequestParams<T, string>) => {
-  return request<T, string>({
+export const Get = <T>({ url, silent, data }: TCustomRequestParams<T, TGeneralObject>) => {
+  return request<T, TGeneralObject>({
     method: 'GET',
     url,
     data,
@@ -14,8 +15,8 @@ export const Get = <T>({ url, silent, data }: TCustomRequestParams<T, string>) =
 }
 
 /** post请求 */
-export const Post = <T>({ url, silent, data }: TCustomRequestParams<T, object>) => {
-  return request<T, object>({
+export const Post = <T>({ url, silent, data }: TCustomRequestParams<T, TGeneralObject>) => {
+  return request<T, TGeneralObject>({
     method: 'POST',
     url,
     data,
@@ -24,8 +25,8 @@ export const Post = <T>({ url, silent, data }: TCustomRequestParams<T, object>) 
 }
 
 /** put请求 */
-export const Put = <T>({ url, silent, data }: TCustomRequestParams<T, object>) => {
-  return request<T, object>({
+export const Put = <T>({ url, silent, data }: TCustomRequestParams<T, TGeneralObject>) => {
+  return request<T, TGeneralObject>({
     method: 'PUT',
     url,
     data,
@@ -34,8 +35,8 @@ export const Put = <T>({ url, silent, data }: TCustomRequestParams<T, object>) =
 }
 
 /** delete请求 */
-export const Delete = <T>({ url, silent, data }: TCustomRequestParams<T, object>) => {
-  return request<T, object>({
+export const Delete = <T>({ url, silent, data }: TCustomRequestParams<T, TGeneralObject>) => {
+  return request<T, TGeneralObject>({
     method: 'DELETE',
     url,
     data,
@@ -59,4 +60,12 @@ export const requestUrlCreator = <T extends {
   domain = 'BUSINESS'
 }: T): string => {
   return BUSINESS_DOMAIN[domain] + BUSINESS_API_ROOT_PATH[rootPath] + absolutePath
+}
+
+
+export default {
+  Get,
+  Post,
+  Put,
+  Delete
 }

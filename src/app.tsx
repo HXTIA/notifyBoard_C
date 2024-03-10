@@ -4,6 +4,7 @@ import Error from 'src/components/baseBuiltComp/Error'
 import { store } from './store'
 import './app.scss'
 
+
 function App(props) {
   useError((err) => {
     console.log('错了', err)

@@ -1,6 +1,11 @@
 @import 'src/app.scss';
 
+.NoCoverShow {
+  background-color: #fff;
+}
+
 .LoadingContainer {
+  position: absolute;
   display: flex;
   flex-direction: column;
   justify-content: center;
