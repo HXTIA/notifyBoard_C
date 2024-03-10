@@ -1,3 +1,3 @@
 export default definePageConfig({
-  navigationBarTitleText: '我与光同航！',
+  navigationBarTitleText: '我的',
 })
