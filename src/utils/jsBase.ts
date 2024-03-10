@@ -26,6 +26,10 @@ export function isDate(obj: any) {
   return typeEqual(obj, 'Date')
 }
 
+export function isBoolean(obj: any) {
+  return typeEqual(obj, 'Boolean')
+}
+
 /**
  * 深拷贝
  * @param target 支持对象和数组
@@ -47,19 +51,6 @@ export function cloneDeep<T>(targetObj: T): T {
     return result
   }
   return baseClone(targetObj)
-}
-
-/**
- * 将对象解析成URL参数
- */
-export const objectToUrl: any = (obj: object) => {
-  // if (!isObj(obj) && Object.keys(obj).length === 0) {
-  //   throw new Error('对象错误!')
-  // }
-  if (Object.keys(obj).length === 0) return ''
-  return Object.keys(obj)
-    .map((key) => `${key}=${obj[key]}`)
-    .join('&')
 }
 
 /**

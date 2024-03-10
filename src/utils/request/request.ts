@@ -7,7 +7,7 @@ type TTaroRequestParams<T, U> = Parameters<typeof Taro.request<T, U>>[0]
 /** 额外请求参数 */
 export type TExtraRequestParams = {
   /** 请求是否静默[是否需要loading] */
-  silent: boolean
+  silent?: boolean
   /** loading文案 */
   loadingTitle?: string,
   /** loading是否需要遮罩 */
