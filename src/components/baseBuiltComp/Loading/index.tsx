@@ -1,8 +1,7 @@
 import { Canvas, View } from '@tarojs/components'
-import { useDidShow } from '@tarojs/taro'
 import { $, loadAnimation } from 'src/utils'
 import classnames from 'classnames'
-import React from 'react'
+import React, { useEffect } from 'react'
 import loading1 from 'src/static/SVG/loading1.json'
 import loading2 from 'src/static/SVG/loading2.json'
 import loading3 from 'src/static/SVG/loading3.json'
@@ -22,7 +21,7 @@ type TIndexProps = {
 
 const LOADING_AVG = [loading1, loading2, loading3, loading4, loading5, loading6, loading7]
 const Index = ({ isShow, isCover = true }: TIndexProps) => {
-  useDidShow(() => {
+  useEffect(() => {
     setTimeout(() => {
       const random = ~~((Math.random() + 1) * LOADING_AVG.length) % LOADING_AVG.length
       if (isShow) {

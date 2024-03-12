@@ -1,11 +1,11 @@
 import Taro from "@tarojs/taro";
-import { IUserInfo } from "src/common-model";
+import { ISystemInfo, IUserInfo } from "src/common-model";
 import { isObj } from "./jsBase";
 
 /** 可存储的storage接口 */
 interface IStorageData {
   userInfo: IUserInfo;
-  common: {};
+  system: ISystemInfo
 }
 type TStorageKey = keyof IStorageData
 

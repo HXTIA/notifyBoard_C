@@ -63,6 +63,11 @@ const config = {
         },
       },
     },
+    /** 提取css */
+    // miniCssExtractPluginOption: {
+    //   filename: '[name].css',
+    //   chunkFilename: '[name].css',
+    // },
   },
 }
 

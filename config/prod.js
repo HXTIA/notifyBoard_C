@@ -13,10 +13,10 @@ module.exports = {
     },
 
     /** 提取css */
-    miniCssExtractPluginOption: {
-      filename: '[name].css',
-      chunkFilename: '[name].css',
-    },
+    // miniCssExtractPluginOption: {
+    //   filename: '[name].css',
+    //   chunkFilename: '[name].css',
+    // },
   }
   /** 看起来会默认压缩 */
   // jsMinimizer: 'terser', // 默认压缩为terser

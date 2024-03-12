@@ -29,6 +29,6 @@ module.exports = {
         style: () => '@taroify/icons/style',
       },
       '@taroify/icons',
-    ],
+    ]
   ],
 }
