@@ -1,7 +1,9 @@
 import Taro from "@tarojs/taro"
+import { store } from "src/store"
 import { showToast } from "../extraUiEffect"
 import { buildUrl, parseUrl } from "./query"
 import { trackGoToJump } from "../perfTrack"
+import { isStr } from "../jsBase"
 
 /**
  * 可以支持的跳转类型
@@ -15,12 +17,20 @@ import { trackGoToJump } from "../perfTrack"
 type TRouterJumpType = 'switchTab' | 'reLaunch' | 'redirectTo' | 'navigateTo' | 'navigateBack'
 
 type TGoToParams = {
-  url: string,
-  methodType: TRouterJumpType,
+  /** 目标页面 */
+  url: string;
+  methodType: TRouterJumpType;
+  /** 额外透传参数 */
   extraParams?: {
     [key in string]: string | number | boolean
   } & {
+    /** 运营点位 */
     cid?: string
+  };
+  /** 配置项 */
+  options?: {
+    /** 是否校验登陆态 */
+    authorize?: boolean
   }
 }
 
@@ -28,6 +38,7 @@ type TGoToParams = {
 export const goTo = ({
   url,
   methodType,
+  options = { authorize: true },
   extraParams
 }: TGoToParams) => {
   const $jumpBegin = Date.now()
@@ -37,9 +48,21 @@ export const goTo = ({
   if (!methodFn) {
     showToast({
       title: '跳转失败了，请重试',
-      icon: 'error'
+      icon: 'none'
     })
     return
+  }
+
+  /** 校验是否登陆 */
+  if (options.authorize) {
+    const token = store.getState()?.common?.userInfo?.token
+    if (!!token || !isStr(token)) {
+      /** 理论来说不需要校验checkSession，因为HOC会处理没token，如果没登陆态都走不到这里 */
+      showToast({
+        title: '您当前还没有登陆'
+      })
+      // TODO: useModal
+    }
   }
 
   /** 被注入的参数 */
@@ -49,7 +72,7 @@ export const goTo = ({
     $page_xpos: extraParams?.cid || ''
   }
   if (extraParams) {
-    injectParams = { ...injectParams, ...extraParams }
+    injectParams = { ...extraParams, ...injectParams }
   }
 
   injectParams = {
@@ -57,9 +80,10 @@ export const goTo = ({
     ...parseUrl(url)
   }
 
+  const [baseUrl] = url.split('?')
   console.log(' === 跳转配置 === ', injectParams);
 
-  const realUrl = url + buildUrl(injectParams)
+  const realUrl = baseUrl + buildUrl(injectParams)
   methodFn({
     url: realUrl,
     success: () => {

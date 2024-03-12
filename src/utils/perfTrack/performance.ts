@@ -15,7 +15,7 @@ interface IPerfTracker {
   responseReady: (params: { api?: string, data?: any }) => void
 }
 
-export class PerfTackerBase {
+class PerfTackerBase {
   /** 当前页面信息 */
   protected _page: Page;
   /** 页面开始的0时刻 */
