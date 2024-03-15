@@ -19,7 +19,7 @@ const handle_system_error_exception = (resWrap: ResultWrap<any>) => {
   showToast({
     title: '系统故障，请投诉 并告知研发修复',
     icon: 'none',
-    duration: 3000
+    duration: 4000
   })
 }
 

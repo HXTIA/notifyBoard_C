@@ -1,11 +1,7 @@
 import Taro from "@tarojs/taro"
-import { store } from "src/store"
-import { config } from "src/config"
 import { showToast } from "../extraUiEffect"
 import { buildUrl, parseUrl } from "./query"
 import { trackGoToJump } from "../perfTrack"
-import { isStr } from "../jsBase"
-import { getCurrentPage, getPages } from "./page"
 
 /**
  * 可以支持的跳转类型
@@ -18,21 +14,13 @@ import { getCurrentPage, getPages } from "./page"
  * */
 type TRouterJumpType = 'switchTab' | 'reLaunch' | 'redirectTo' | 'navigateTo' | 'navigateBack'
 
-export type TGoToParams = {
-  /** 目标页面 */
-  url?: string;
-  methodType: TRouterJumpType;
-  /** 额外透传参数 */
+type TGoToParams = {
+  url: string,
+  methodType: TRouterJumpType,
   extraParams?: {
-    [key in string]: string | number | boolean | undefined
+    [key in string]: string | number | boolean
   } & {
-    /** 运营点位 */
     cid?: string
-  };
-  /** 配置项 */
-  options?: {
-    /** 是否校验登陆态 */
-    authorize?: boolean
   }
 }
 
@@ -40,7 +28,6 @@ export type TGoToParams = {
 export const goTo = ({
   url,
   methodType,
-  options = { authorize: true },
   extraParams
 }: TGoToParams) => {
   const $jumpBegin = Date.now()
@@ -50,61 +37,35 @@ export const goTo = ({
   if (!methodFn) {
     showToast({
       title: '跳转失败了，请重试',
-      icon: 'none'
+      icon: 'error'
     })
     return
-  }
-
-  /** 校验是否登陆 */
-  if (options.authorize) {
-    const token = store.getState()?.common?.userInfo?.token
-    if (!!token || !isStr(token)) {
-      /** 理论来说不需要校验checkSession，因为HOC会处理没token，如果没登陆态都走不到这里 */
-      showToast({
-        title: '您当前还没有登陆'
-      })
-      // TODO: useModal
-    }
   }
 
   /** 被注入的参数 */
   let injectParams = {
     /** 跳转开始节点 */
     $jumpBegin,
-    $page_xpos: extraParams?.cid || '',
-    $fromPage: getCurrentPage().route as string
+    $page_xpos: extraParams?.cid || ''
   }
   if (extraParams) {
-    injectParams = { ...extraParams, ...injectParams }
+    injectParams = { ...injectParams, ...extraParams }
   }
 
   injectParams = {
     ...injectParams,
-    ...parseUrl(url || ''),
+    ...parseUrl(url)
   }
 
-  const [baseUrl] = (url || '').split('?')
   console.log(' === 跳转配置 === ', injectParams);
 
-  const realUrl = baseUrl + buildUrl(injectParams)
+  const realUrl = url + buildUrl(injectParams)
   methodFn({
     url: realUrl,
     success: () => {
       const consumingTime = Date.now() - $jumpBegin
       // 跳转埋点
       trackGoToJump({ cid: extraParams?.cid || '', extraParams: { time: consumingTime, path: realUrl } })
-    },
-    complete() {
-      console.log(getPages());
     }
   })
-}
-
-/** 返回判定目标页面是否为一个tabBar页面 */
-export const isTabBarPage = (url: string): boolean => {
-  url = url.charAt(0) === '/' ? url.substring(1, url.length) : url
-  const reg = new RegExp(url)
-  const { tabBar } = config
-  const list = tabBar?.list || []
-  return list.some(({ pagePath }) => pagePath.match(reg))
 }

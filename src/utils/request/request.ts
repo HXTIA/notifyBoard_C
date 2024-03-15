@@ -17,11 +17,7 @@ export type TExtraRequestParams = {
 /** 自定义请求参数类型 */
 export type TCustomRequestParams<T, U> = TTaroRequestParams<T, U> & TExtraRequestParams
 /** 响应体类型约束 */
-export type TRequestBodyDataExtends<T> = {
-  code: number;
-  msg: string;
-  data: T extends string | TaroGeneral.IAnyObject | ArrayBuffer ? T : any;
-}
+export type TRequestBodyDataExtends<T> = T extends string | TaroGeneral.IAnyObject | ArrayBuffer ? T : any;
 /** 响应类型 */
 export type TResponseType<T> = Taro.request.SuccessCallbackResult<TRequestBodyDataExtends<T>>
 
@@ -30,7 +26,7 @@ export type TResponseType<T> = Taro.request.SuccessCallbackResult<TRequestBodyDa
  * @param {TCustomRequestParams} options - 请求入参
  * @returns
  */
-export const baseRequest = <T extends TRequestBodyDataExtends<T>, U extends object | string>(options: TCustomRequestParams<TRequestBodyDataExtends<T>, U>): Promise<TResponseType<T>> => {
+export const baseRequest = <T, U extends object | string>(options: TCustomRequestParams<TRequestBodyDataExtends<T>, U>): Promise<TResponseType<T>> => {
   if (!options.silent) {
     const { loadingTitle: title, loadingNeedMask: mask } = options
     showLoading({
@@ -42,7 +38,7 @@ export const baseRequest = <T extends TRequestBodyDataExtends<T>, U extends obje
   return new Promise((resolve, reject) => {
     Taro.request<T>({
       ...options,
-      success: (res) => resolve(res),
+      success: (res: TResponseType<T>) => resolve(res),
       fail: reject,
       complete: () => {
         !options.silent && hideLoading()

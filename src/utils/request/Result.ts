@@ -4,16 +4,16 @@ interface IResultWrapBase<T> {
   data: T,
   // header: object,
   // cookies: string,
-  msg: string,
-  code: number,
+  errMsg: string,
+  statusCode: number,
   isSuccess: boolean
 }
 
 /** 业务响应包裹基础类 */
 class ResultWrapBase<T> implements Partial<IResultWrapBase<T>>{
   private _data?: T
-  private _msg?: string
-  private _code?: number
+  private _errMsg?: string
+  private _statusCode?: number
   private _isSuccess?: boolean
 
   /** 获取请求数据 */
@@ -23,12 +23,12 @@ class ResultWrapBase<T> implements Partial<IResultWrapBase<T>>{
 
   /** 获取请求响应信息 */
   get errMsg() {
-    return this._msg
+    return this._errMsg
   }
 
   /** 获取请求业务码 */
   get code() {
-    return this._code
+    return this._statusCode
   }
 
   /** 获得到是否成功请求 */
@@ -38,8 +38,8 @@ class ResultWrapBase<T> implements Partial<IResultWrapBase<T>>{
 
   constructor(params: Partial<IResultWrapBase<T>>) {
     this._data = params.data
-    this._msg = params.msg
-    this._code = params.code
+    this._errMsg = params.errMsg
+    this._statusCode = params.statusCode
     this._isSuccess = params.isSuccess
   }
 }

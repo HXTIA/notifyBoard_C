@@ -1,6 +1,6 @@
 module.exports = {
   extends: [
-    "taro/react",
+    "taro/react"
   ],
   rules: {
     "react/jsx-uses-react": "off",
@@ -11,7 +11,7 @@ module.exports = {
     requireConfigFile: false,
   },
   env: {
-    node: true, // 启用目标环境的全局变量
-    browser: true,
+      node: true, // 启用目标环境的全局变量
+      browser: true,
   },
 }

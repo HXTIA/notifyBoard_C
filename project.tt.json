@@ -1,7 +1,7 @@
 {
   "miniprogramRoot": "./",
   "projectname": "notifyBoard_C",
-  "appid": "wx6836fb3c447f8868",
+  "appid": "testAppId",
   "setting": {
     "es6": false,
     "minified": false

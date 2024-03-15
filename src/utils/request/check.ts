@@ -22,11 +22,11 @@ export const pipelineResCheck = <T>(responseData: TResponseType<T>): TResponseTy
 }
 /** 校验请求是否成功 */
 function checkStatusCodeSuccessful(responseData: TResponseType<any>) {
-  const { data } = responseData
-  if (data.code === STATUS_CODE.SUCCESS) return true
+  const { statusCode } = responseData
+  if (statusCode === STATUS_CODE.SUCCESS) return true
 
   /** check因为什么导致错误 */
-  return switchExceptionType(data.code)
+  return switchExceptionType(statusCode)
 }
 
 /** 分配错误类型 */

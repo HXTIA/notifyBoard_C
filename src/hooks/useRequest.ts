@@ -72,13 +72,13 @@ const useRequest = <T>(requestFn: TRequestFn, options: TRequestOptions = { auto:
       PerfTackerInstance.responseReady({ api: url, data: res.data as any })
     } else {
       /** 请求没有成功，错误信息可以用errMsg取出 */
-      setErr(res.msg)
+      setErr(res.errMsg)
       /** 上报错误埋点 */
       trackAPIError({
         token: getStorage<IUserInfo>('userInfo').token || 'noLogin',
         api: url,
         reqData,
-        errMsg: res.msg
+        errMsg: res.errMsg
       })
       res.handleException && res.handleException()
     }

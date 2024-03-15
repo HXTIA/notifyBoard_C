@@ -1,11 +1,11 @@
-import { Button, Canvas, CoverView, View } from '@tarojs/components'
+import { Canvas, CoverView, View } from '@tarojs/components'
+import { useDidShow } from '@tarojs/taro'
 import FORBIDDEN from 'src/static/SVG/forbidden.json'
 import { $, loadAnimation } from 'src/utils'
-import { useEffect } from 'react'
 import './index.module.scss'
 
 const Index = () => {
-  useEffect(() => {
+  useDidShow(() => {
     setTimeout(() => {
       loadAnimation($('#ForbiddenContainer__bgContainer__canvas'), {
         animationData: FORBIDDEN,
@@ -21,9 +21,8 @@ const Index = () => {
           type='2d'
         ></Canvas>
         <CoverView className='ForbiddenContainer__bgContainer__title'>
-          SRY 你没有权限访问该页面
+          SORRY，你没有权限访问该界面
         </CoverView>
-        <Button>返回主页（退一步海阔天空）</Button>
       </View>
     </View>
   )
