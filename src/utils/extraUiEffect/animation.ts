@@ -15,6 +15,12 @@ export const loadAnimation = (node: Taro.SelectorQuery, options: TLoadAnimationP
     const canvas = res[0].node
     const context = canvas.getContext('2d')
 
+    /** 处理像素比导致lottie模糊问题 */
+    const dpr = Taro.getSystemInfoSync().pixelRatio
+    canvas.width = canvas.width * dpr
+    canvas.height = canvas.height * dpr
+    context.scale(dpr, dpr)
+
     lottie.setup(canvas)
     const lottieIns = lottie.loadAnimation({
       rendererSettings: {

@@ -1,6 +1,6 @@
 export default definePageConfig({
   /** 页面标题 */
-  navigationBarTitleText: '当我在追光~',
+  navigationBarTitleText: '首页',
   /** 是否开启下拉刷新 */
   enablePullDownRefresh: true,
   /** 自定义导航栏 */

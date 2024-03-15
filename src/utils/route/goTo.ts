@@ -1,9 +1,11 @@
 import Taro from "@tarojs/taro"
 import { store } from "src/store"
+import { config } from "src/config"
 import { showToast } from "../extraUiEffect"
 import { buildUrl, parseUrl } from "./query"
 import { trackGoToJump } from "../perfTrack"
 import { isStr } from "../jsBase"
+import { getCurrentPage, getPages } from "./page"
 
 /**
  * 可以支持的跳转类型
@@ -16,13 +18,13 @@ import { isStr } from "../jsBase"
  * */
 type TRouterJumpType = 'switchTab' | 'reLaunch' | 'redirectTo' | 'navigateTo' | 'navigateBack'
 
-type TGoToParams = {
+export type TGoToParams = {
   /** 目标页面 */
-  url: string;
+  url?: string;
   methodType: TRouterJumpType;
   /** 额外透传参数 */
   extraParams?: {
-    [key in string]: string | number | boolean
+    [key in string]: string | number | boolean | undefined
   } & {
     /** 运营点位 */
     cid?: string
@@ -69,7 +71,8 @@ export const goTo = ({
   let injectParams = {
     /** 跳转开始节点 */
     $jumpBegin,
-    $page_xpos: extraParams?.cid || ''
+    $page_xpos: extraParams?.cid || '',
+    $fromPage: getCurrentPage().route as string
   }
   if (extraParams) {
     injectParams = { ...extraParams, ...injectParams }
@@ -77,10 +80,10 @@ export const goTo = ({
 
   injectParams = {
     ...injectParams,
-    ...parseUrl(url)
+    ...parseUrl(url || ''),
   }
 
-  const [baseUrl] = url.split('?')
+  const [baseUrl] = (url || '').split('?')
   console.log(' === 跳转配置 === ', injectParams);
 
   const realUrl = baseUrl + buildUrl(injectParams)
@@ -90,6 +93,18 @@ export const goTo = ({
       const consumingTime = Date.now() - $jumpBegin
       // 跳转埋点
       trackGoToJump({ cid: extraParams?.cid || '', extraParams: { time: consumingTime, path: realUrl } })
+    },
+    complete() {
+      console.log(getPages());
     }
   })
+}
+
+/** 返回判定目标页面是否为一个tabBar页面 */
+export const isTabBarPage = (url: string): boolean => {
+  url = url.charAt(0) === '/' ? url.substring(1, url.length) : url
+  const reg = new RegExp(url)
+  const { tabBar } = config
+  const list = tabBar?.list || []
+  return list.some(({ pagePath }) => pagePath.match(reg))
 }

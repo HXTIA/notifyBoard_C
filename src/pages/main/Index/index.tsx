@@ -1,14 +1,21 @@
 import { View, Text, Canvas } from '@tarojs/components'
 import { useSelector } from 'react-redux'
+import React, { useEffect } from 'react'
 import { Button } from '@taroify/core'
-import { URL } from 'src/utils/const'
+import { URL } from 'src/utils/route/constants'
 import { RootState } from 'src/store'
 import { goTo, showLoading, showToast } from 'src/utils/index'
 import Loading from 'src/components/baseBuiltComp/Loading'
-import './index.scss'
+import { Authorize } from 'src/components/baseBuiltComp/HocWrap'
+import './index.module.scss'
+
 
 const Index = () => {
   const state = useSelector((state1: RootState) => state1.common)
+
+  useEffect(() => {
+    console.log('只有当前执行了');
+  }, [])
 
   // easyLoading.show("加载中...")
   // easyLoading.hide()
@@ -24,4 +31,4 @@ const Index = () => {
   )
 }
 
-export default Index
+export default React.memo(Authorize(Index))
