@@ -16,6 +16,7 @@ module.exports = {
     miniCssExtractPluginOption: {
       filename: '[name].css',
       chunkFilename: '[name].css',
+      ignoreOrder: true
     },
   }
   /** 看起来会默认压缩 */

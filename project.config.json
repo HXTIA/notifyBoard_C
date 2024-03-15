@@ -2,7 +2,7 @@
   "miniprogramRoot": "./dist",
   "projectname": "notifyBoard_C",
   "description": "作业板",
-  "appid": "touristappid",
+  "appid": "wx6836fb3c447f8868",
   "setting": {
     "urlCheck": true,
     "es6": false,

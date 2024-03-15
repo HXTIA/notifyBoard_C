@@ -1,12 +1,12 @@
 import { Canvas, CoverView, View } from '@tarojs/components'
 import { Button } from '@taroify/core'
-import { useDidShow } from '@tarojs/taro'
 import { $, loadAnimation } from 'src/utils'
+import { useEffect } from 'react'
 import NoFound from 'src/static/SVG/404.json'
 import './index.module.scss'
 
 const Index = () => {
-  useDidShow(() => {
+  useEffect(() => {
     setTimeout(() => {
       loadAnimation($('#ErrorContainer__bgContainer__canvas'), { animationData: NoFound })
     }, 0)

@@ -2,7 +2,7 @@ import { isObj } from "../jsBase"
 import { getPages } from "./page"
 
 /** 透传的参数 */
-type TPassParamsObject = { [key in string]: string | number | boolean }
+type TPassParamsObject = { [key in string]: string | number | boolean | undefined }
 
 /** 构建页面参数 */
 export const buildUrl = (obj: TPassParamsObject): string => {
