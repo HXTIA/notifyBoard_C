@@ -1,17 +1,15 @@
 import { Canvas, CoverView, View } from '@tarojs/components'
 import { Button } from '@taroify/core'
-import { $, loadAnimation } from 'src/utils'
-import { useEffect } from 'react'
-import NoFound from 'src/static/SVG/404.json'
+import { $ } from 'src/utils'
+import useAnimation from 'src/hooks/useAnimation'
+import { JSON_MAP } from 'src/static/SVG/lottie-map'
 import './index.module.scss'
 
-const Index = () => {
-  useEffect(() => {
-    console.log('调用了一次 ！！！');
 
-    setTimeout(() => {
-      loadAnimation($('#ErrorContainer__bgContainer__canvas'), { animationData: NoFound })
-    }, 0)
+const Index = () => {
+  useAnimation({
+    node: $('#ErrorContainer__bgContainer__canvas'),
+    template: JSON_MAP['404']
   })
   return (
     <View className='ErrorContainer'>

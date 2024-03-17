@@ -1,6 +1,7 @@
-import { View, Text, Canvas } from '@tarojs/components'
+import { View } from '@tarojs/components'
 import React, { useEffect } from 'react'
-import { ModalNotify } from 'src/components/baseBuiltComp/HocWrap'
+import { Authorize } from 'src/components/baseBuiltComp/HocWrap'
+import { URL, goTo, query } from 'src/utils'
 import './index.module.scss'
 
 const Index = () => {
@@ -16,11 +17,13 @@ const Index = () => {
   //   }), { auto: true }
   // )
   // console.log(query());
-
+  useEffect(() => {
+    // console.log('我调用了一次', query());
+  }, [])
   return (
     // loading ? <Loading isShow={loading} /> : <View>loading结束了</View>
-    <View>loading结束了</View>
+    <View onClick={() => goTo({ url: URL.Setting, methodType: 'navigateTo' })}>loading结束了</View>
   )
 }
 
-export default React.memo(ModalNotify(Index))
+export default React.memo(Authorize(Index))

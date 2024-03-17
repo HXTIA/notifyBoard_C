@@ -1,8 +1,9 @@
 import { TGeneralObject } from "src/types"
+import Taro from "@tarojs/taro"
 import { DefinedEnumKeys } from "../types/enumHelper"
 import { request } from "./business"
 import { BUSINESS_API_ROOT_PATH, BUSINESS_DOMAIN } from "./constants"
-import { TCustomRequestParams } from "./request"
+import { TCustomRequestParams, TResponseType, baseRequest } from "./request"
 
 /** get请求 */
 export const Get = <T>({ url, silent, data }: TCustomRequestParams<T, TGeneralObject>) => {
@@ -42,6 +43,38 @@ export const Delete = <T>({ url, silent, data }: TCustomRequestParams<T, TGenera
     data,
     silent,
   })
+}
+
+/**
+ * 预加载静态资源 - 「图片或文件」
+ * @param url 链接
+ */
+export function preloadResource(url: string): Promise<boolean>
+
+/**
+ * 预加载静态资源 - 「图片或文件」
+ * @param url 链接
+ * @param isImg 是否为image加载
+ * @returns
+ */
+export function preloadResource<T>(url: string, isImg: boolean): Promise<TResponseType<T>>
+export function preloadResource<T>(url: string, isImg = true) {
+  console.log(' === 预加载静态资源 === ');
+  if (isImg) {
+    return new Promise<boolean>((resolve) => {
+      const canvas = Taro.createOffscreenCanvas({ width: 300, height: 150 })
+      const image = canvas.createImage()
+      image.onload = () => resolve(true)
+      image.onerror = () => resolve(false)
+      image.src = url
+    })
+  } else {
+    return baseRequest<T, any>({
+      url,
+      method: 'GET',
+      silent: true
+    })
+  }
 }
 
 /** 支持自定义请求 */

@@ -2,7 +2,7 @@ import { IUserInfo } from 'src/common-model'
 import { TGeneralObject } from 'src/types'
 import { getStorage } from '../storage'
 import { ResultWrap } from './Result'
-import { baseRequest, TExtraRequestParams, type TCustomRequestParams, TRequestBodyDataExtends } from './request'
+import { baseRequest, TExtraRequestParams, type TCustomRequestParams } from './request'
 import { pipelineResCheck } from './check'
 
 const baseExtraConfig: TExtraRequestParams = {
@@ -14,7 +14,7 @@ const baseExtraConfig: TExtraRequestParams = {
   loadingTitle: '加载中...'
 }
 
-export const request = <T extends TRequestBodyDataExtends<T>, U extends string | TGeneralObject>(params: TCustomRequestParams<T, U>): Promise<ResultWrap<T>> => {
+export const request = <T, U extends string | TGeneralObject>(params: TCustomRequestParams<T, U>): Promise<ResultWrap<T>> => {
   return new Promise(async (resolve) => {
     let resInstance
     try {

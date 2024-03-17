@@ -24,7 +24,7 @@ const targetPage = [
 const Index = () => {
   return (
     <View className='index'>
-      <Text>设置页面</Text>
+      <Text onClick={() => goTo({ methodType: 'navigateBack' })}>设置页面</Text>
       <View className='list'>
         {
           targetPage.map(v => {

@@ -1,14 +1,9 @@
 import { Canvas, View } from '@tarojs/components'
-import { $, loadAnimation } from 'src/utils'
+import { $ } from 'src/utils'
 import classnames from 'classnames'
 import React, { useEffect } from 'react'
-import loading1 from 'src/static/SVG/loading1.json'
-import loading2 from 'src/static/SVG/loading2.json'
-import loading3 from 'src/static/SVG/loading3.json'
-import loading4 from 'src/static/SVG/loading4.json'
-import loading5 from 'src/static/SVG/loading5.json'
-import loading6 from 'src/static/SVG/loading6.json'
-import loading7 from 'src/static/SVG/loading7.json'
+import useAnimation from 'src/hooks/useAnimation'
+import { JSON_MAP } from 'src/static/SVG/lottie-map'
 import './index.module.scss'
 
 /** 组件透传参数 */
@@ -19,18 +14,18 @@ type TIndexProps = {
   isCover?: boolean;
 }
 
-const LOADING_AVG = [loading1, loading2, loading3, loading4, loading5, loading6, loading7]
+const LOADING_AVG = ['loading1', 'loading2', 'loading3', 'loading4', 'loading5', 'loading6', 'loading7']
 const Index = ({ isShow, isCover = true }: TIndexProps) => {
-  useEffect(() => {
-    setTimeout(() => {
-      const random = ~~((Math.random() + 1) * LOADING_AVG.length) % LOADING_AVG.length
-      if (isShow) {
-        loadAnimation($('#LoadingContainer__bgContainer__canvas'), {
-          animationData: LOADING_AVG[random],
-        })
-      }
-    }, 0)
+  const random = ~~((Math.random() + 1) * LOADING_AVG.length) % LOADING_AVG.length
+  const { run } = useAnimation({
+    node: $('#LoadingContainer__bgContainer__canvas'),
+    template: JSON_MAP[LOADING_AVG[random]],
+    isAutoRun: false
   })
+  useEffect(() => {
+    isShow && run()
+  }, [isShow])
+
   return (
     isShow ? (
       <>

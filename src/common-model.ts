@@ -45,6 +45,7 @@ export const common = createModel<RootModel>()({
     },
     update_SystemInfo: (state: ICommonState, newSystemInfo: ISystemInfo) => {
       state.system = newSystemInfo
+      console.log(' === 更新到了', newSystemInfo);
       return state
     },
   },

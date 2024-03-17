@@ -17,24 +17,18 @@ export const config: Config = {
     // 'pages/Setting/Course/index'
   ],
   subPackages: [
-    /** 详情独立分包 */
     {
       root: 'pages/Detail',
       pages: [
         'index'
       ],
-      // 注册为独立分包
-      // independent: true
     },
-    // /** 初始化独立分包 */
     {
       root: 'pages/Initial',
       pages: [
         'index'
       ],
-      // independent: true
     },
-    // /** 设置独立分包 */
     {
       root: 'pages/Setting',
       pages: [
@@ -44,7 +38,6 @@ export const config: Config = {
         'Notify/index',
         'Userinfo/index'
       ],
-      // independent: true
     }
   ],
   window: {

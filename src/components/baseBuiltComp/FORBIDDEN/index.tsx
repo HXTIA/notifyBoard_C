@@ -1,17 +1,22 @@
 import { Button, Canvas, CoverView, View } from '@tarojs/components'
-import FORBIDDEN from 'src/static/SVG/forbidden.json'
-import { $, loadAnimation } from 'src/utils'
+import { $ } from 'src/utils'
+import useAnimation from 'src/hooks/useAnimation'
+import { JSON_MAP } from 'src/static/SVG/lottie-map'
 import { useEffect } from 'react'
 import './index.module.scss'
 
 const Index = () => {
-  useEffect(() => {
-    setTimeout(() => {
-      loadAnimation($('#ForbiddenContainer__bgContainer__canvas'), {
-        animationData: FORBIDDEN,
-      })
-    }, 0)
+  const { run, instance } = useAnimation({
+    node: $('#ForbiddenContainer__bgContainer__canvas'),
+    template: JSON_MAP['forbidden'],
+    isAutoRun: false
   })
+  useEffect(() => {
+    run()
+    // setTimeout(() => {
+    //   instance?.pause()
+    // }, 4000);
+  }, [instance])
   return (
     <View className='ForbiddenContainer'>
       <View className='ForbiddenContainer__bgContainer'>

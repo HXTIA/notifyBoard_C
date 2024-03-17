@@ -6,17 +6,12 @@ import { URL } from 'src/utils/route/constants'
 import { RootState } from 'src/store'
 import { goTo, showLoading, showToast } from 'src/utils/index'
 import Loading from 'src/components/baseBuiltComp/Loading'
-import { Authorize, ModalNotify } from 'src/components/baseBuiltComp/HocWrap'
+import { Authorize, Forbidden, ModalNotify } from 'src/components/baseBuiltComp/HocWrap'
 import './index.module.scss'
 
 
 const Index = () => {
   const state = useSelector((state1: RootState) => state1.common)
-
-  useEffect(() => {
-    console.log('只有当前执行了');
-  }, [])
-
   // easyLoading.show("加载中...")
   // easyLoading.hide()
   // easyToast("你好")
@@ -31,4 +26,4 @@ const Index = () => {
   )
 }
 
-export default React.memo(Authorize(Index))
+export default React.memo(Index)

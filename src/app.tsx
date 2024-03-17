@@ -3,8 +3,9 @@ import Taro, { useError, useLaunch } from '@tarojs/taro'
 import Error from 'src/components/baseBuiltComp/Error'
 import { store } from './store'
 import './app.scss'
-import { Get, getStorage, requestUrlCreator } from './utils'
+import { Get, getStorage, preloadResource, requestUrlCreator } from './utils'
 import { IUserInfo } from './common-model'
+import { JSON_MAP } from './static/SVG/lottie-map'
 
 
 function App(props) {
@@ -36,6 +37,9 @@ function App(props) {
         console.log(' === 获取用户信息请求错误 === ', err);
       }
     }
+
+    /** 预加载静态资源 */
+    preloadResource(JSON_MAP['forbidden'], false)
 
     // store.dispatch.common.update_UserInfo({ ...userinfo })
     // TODO: 需要更新为实际的userinfo参数

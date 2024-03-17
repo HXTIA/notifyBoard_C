@@ -63,7 +63,7 @@ export const goTo = ({
       showToast({
         title: '您当前还没有登陆'
       })
-      // TODO: useModal
+      return
     }
   }
 
@@ -95,7 +95,9 @@ export const goTo = ({
       trackGoToJump({ cid: extraParams?.cid || '', extraParams: { time: consumingTime, path: realUrl } })
     },
     complete() {
-      console.log(getPages());
+      setTimeout(() => {
+        console.log(' === 当前页面栈现存 === ', getPages());
+      }, 100);
     }
   })
 }
