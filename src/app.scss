@@ -1,2 +1,48 @@
 $base-element-color: #575e7f;
-$general-light-mode: rgb(220, 74, 74)
+$general-light-mode: rgb(220, 74, 74);
+
+/** 主题色 */
+$primary-color: #3DEBA5;
+$primary-color-light:#4EED89;
+
+/** 输入框背景色 */
+$input-background-color: #F1F5F9;
+
+/** 字体颜色 */
+$text-color-primary:#0C122B;
+$text-color-secondary:rgba(0, 0, 0, 0.6);
+$text-color-placeholder:rgba(0, 0, 0, 0.4);
+$text-color-disabled:rgba(0, 0, 0, 0.26);
+
+/** 边框颜色 */
+$text-boder-color: #B8B8B8;
+
+$success-primary-color:#4EED89;
+$success-color-light:#bcebdc;
+$success-color:#00a870;
+$success-color-dark:#00a870;
+
+
+$error-primary-color:#FFB1B0;
+$error-color-light:#f9d7d9;
+$error-color:#e34d59;
+$error-color-dark:#c9353f;
+
+$warning-primary-color:#FFD175;
+$warning-color-light:#f9e6b9;
+$warning-color:#ed7b2f;
+$warning-color-dark:#d35a21;
+
+/** 中性色 */
+$bg-color-gary1:#f3f3f3;
+$bg-color-gary2:#eee;
+$bg-color-gary3:#e7e7e7;
+$bg-color-gary4:#dcdcdc;
+$bg-color-gary5:#a6a6a6;
+
+/** 输入框背景 */
+.Field__bgContainer{
+    background-color: $input-background-color;
+    border-radius: 60px;
+    font-size: bold;
+}

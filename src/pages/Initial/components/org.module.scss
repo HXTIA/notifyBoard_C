@@ -1,0 +1,33 @@
+@import '../../../app.scss';
+
+.OrgContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 70vh;
+    &__welcome{
+        font-size: 36px;
+        color: $text-color-primary;
+    }
+    &__headline{
+        font-size: 48px;
+        margin-top:15px ;
+        color: $text-color-primary;
+    }
+    &__describe{
+        margin-top:20px;
+        color: $text-color-placeholder;
+
+    }
+    &__bgContainer{
+        width: 80vw;
+    }
+}
+
+.Field__bgContainer{
+    background-color: $input-background-color;
+    border-radius: 60px;
+    font-size: bold;
+}

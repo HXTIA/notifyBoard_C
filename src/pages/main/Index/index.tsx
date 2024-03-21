@@ -9,7 +9,6 @@ import Loading from 'src/components/baseBuiltComp/Loading'
 import { Authorize, Forbidden, ModalNotify } from 'src/components/baseBuiltComp/HocWrap'
 import './index.module.scss'
 
-
 const Index = () => {
   const state = useSelector((state1: RootState) => state1.common)
   // easyLoading.show("加载中...")
@@ -20,10 +19,14 @@ const Index = () => {
   return (
     <View className='index_wrapper'>
       <Text>Hello world1212121!-- {state.userInfo.token}</Text>
-      <Button onClick={() => goTo({ url: URL.Detail, methodType: 'navigateTo', extraParams: { id: 12 } })}>去详细界面</Button>
+      <Button
+        onClick={() => goTo({ url: URL.Detail, methodType: 'navigateTo', extraParams: { id: 12 } })}
+      >
+        去详细界面
+      </Button>
       <Loading isShow={false} />
     </View>
   )
 }
 
-export default React.memo(Index)
+export default React.memo(Authorize(Index))

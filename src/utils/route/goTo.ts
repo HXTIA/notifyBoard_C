@@ -1,11 +1,11 @@
-import Taro from "@tarojs/taro"
-import { store } from "src/store"
-import { config } from "src/config"
-import { showToast } from "../extraUiEffect"
-import { buildUrl, parseUrl } from "./query"
-import { trackGoToJump } from "../perfTrack"
-import { isStr } from "../jsBase"
-import { getCurrentPage, getPages } from "./page"
+import Taro from '@tarojs/taro'
+import { store } from 'src/store'
+import { config } from 'src/config'
+import { showToast } from '../extraUiEffect'
+import { buildUrl, parseUrl } from './query'
+import { trackGoToJump } from '../perfTrack'
+import { isStr } from '../jsBase'
+import { getCurrentPage, getPages } from './page'
 
 /**
  * 可以支持的跳转类型
@@ -20,15 +20,15 @@ type TRouterJumpType = 'switchTab' | 'reLaunch' | 'redirectTo' | 'navigateTo' | 
 
 export type TGoToParams = {
   /** 目标页面 */
-  url?: string;
-  methodType: TRouterJumpType;
+  url?: string
+  methodType: TRouterJumpType
   /** 额外透传参数 */
   extraParams?: {
     [key in string]: string | number | boolean | undefined
   } & {
     /** 运营点位 */
     cid?: string
-  };
+  }
   /** 配置项 */
   options?: {
     /** 是否校验登陆态 */
@@ -41,7 +41,7 @@ export const goTo = ({
   url,
   methodType,
   options = { authorize: true },
-  extraParams
+  extraParams,
 }: TGoToParams) => {
   const $jumpBegin = Date.now()
   const methodFn = Taro[methodType]
@@ -50,7 +50,7 @@ export const goTo = ({
   if (!methodFn) {
     showToast({
       title: '跳转失败了，请重试',
-      icon: 'none'
+      icon: 'none',
     })
     return
   }
@@ -58,10 +58,10 @@ export const goTo = ({
   /** 校验是否登陆 */
   if (options.authorize) {
     const token = store.getState()?.common?.userInfo?.token
-    if (!!token || !isStr(token)) {
+    if (!token || !isStr(token)) {
       /** 理论来说不需要校验checkSession，因为HOC会处理没token，如果没登陆态都走不到这里 */
       showToast({
-        title: '您当前还没有登陆'
+        title: '您当前还没有登陆',
       })
       return
     }
@@ -72,7 +72,7 @@ export const goTo = ({
     /** 跳转开始节点 */
     $jumpBegin,
     $page_xpos: extraParams?.cid || '',
-    $fromPage: '/' + getCurrentPage().route as string
+    $fromPage: ('/' + getCurrentPage().route) as string,
   }
   if (extraParams) {
     injectParams = { ...extraParams, ...injectParams }
@@ -84,7 +84,7 @@ export const goTo = ({
   }
 
   const [baseUrl] = (url || '').split('?')
-  console.log(' === 跳转配置 === ', injectParams);
+  console.log(' === 跳转配置 === ', injectParams)
 
   const realUrl = baseUrl + buildUrl(injectParams)
   methodFn({
@@ -92,13 +92,16 @@ export const goTo = ({
     success: () => {
       const consumingTime = Date.now() - $jumpBegin
       // 跳转埋点
-      trackGoToJump({ cid: extraParams?.cid || '', extraParams: { time: consumingTime, path: realUrl } })
+      trackGoToJump({
+        cid: extraParams?.cid || '',
+        extraParams: { time: consumingTime, path: realUrl },
+      })
     },
     complete() {
       setTimeout(() => {
-        console.log(' === 当前页面栈现存 === ', getPages());
-      }, 100);
-    }
+        console.log(' === 当前页面栈现存 === ', getPages())
+      }, 100)
+    },
   })
 }
 
