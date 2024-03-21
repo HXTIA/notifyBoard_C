@@ -1,7 +1,6 @@
 import Taro from '@tarojs/taro'
 import { isObj, isStr } from '../jsBase'
 
-
 export type TLoadingOptions = Parameters<typeof Taro.showLoading>[0]
 
 /**
@@ -26,7 +25,7 @@ const showLoading = (param: TLoadingOptions | string) => {
 }
 
 /** 隐藏loading */
-const hideLoading = (delay: number = 2000) => {
+const hideLoading = (delay: number = 300) => {
   delay < 300 && (delay = 0)
   setTimeout(() => {
     Taro.hideLoading()

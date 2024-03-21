@@ -11,20 +11,21 @@ const baseExtraConfig: TExtraRequestParams = {
   /** 是否需要loading遮罩 */
   loadingNeedMask: true,
   /** loading文字 */
-  loadingTitle: '加载中...'
+  loadingTitle: '加载中...',
 }
 
-export const request = <T, U extends string | TGeneralObject>(params: TCustomRequestParams<T, U>): Promise<ResultWrap<T>> => {
+export const request = <T, U extends string | TGeneralObject>(
+  params: TCustomRequestParams<T, U>,
+): Promise<ResultWrap<T>> => {
   return new Promise(async (resolve) => {
     let resInstance
     try {
-
       const result = await baseRequest<T, U>({
         ...baseExtraConfig,
         ...params,
         header: {
           token: getStorage<IUserInfo>('userInfo').token,
-          ...params.header
+          ...params.header,
         },
       })
       const { data: originData, type } = pipelineResCheck(result)
@@ -35,14 +36,14 @@ export const request = <T, U extends string | TGeneralObject>(params: TCustomReq
         msg,
         code,
         isSuccess: !type,
-        type
+        type,
       })
     } catch (_err) {
       /** 系统直接抛错，和业务无关 */
       resInstance = new ResultWrap({
         isSuccess: false,
         msg: _err,
-        type: 'system_error'
+        type: 'system_error',
       })
     }
     resolve(resInstance)
