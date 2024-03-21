@@ -9,7 +9,7 @@ const Index = () => {
   const { run, instance } = useAnimation({
     node: $('#ForbiddenContainer__bgContainer__canvas'),
     template: JSON_MAP['forbidden'],
-    isAutoRun: false
+    isAutoRun: false,
   })
   useEffect(() => {
     run()

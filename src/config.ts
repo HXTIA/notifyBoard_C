@@ -1,4 +1,4 @@
-import { Config } from "@tarojs/taro"
+import { Config } from '@tarojs/taro'
 
 /** 供给 app.config消费 */
 export const config: Config = {
@@ -19,26 +19,16 @@ export const config: Config = {
   subPackages: [
     {
       root: 'pages/Detail',
-      pages: [
-        'index'
-      ],
+      pages: ['index'],
     },
     {
       root: 'pages/Initial',
-      pages: [
-        'index'
-      ],
+      pages: ['index'],
     },
     {
       root: 'pages/Setting',
-      pages: [
-        'index',
-        'Course/index',
-        'Feedback/index',
-        'Notify/index',
-        'Userinfo/index'
-      ],
-    }
+      pages: ['index', 'Course/index', 'Feedback/index', 'Notify/index', 'Userinfo/index'],
+    },
   ],
   window: {
     backgroundTextStyle: 'dark',

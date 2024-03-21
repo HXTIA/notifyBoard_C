@@ -1,5 +1,60 @@
+// @font-face {
+//   font-family: AlibabaPuHuiTi;
+//   src: url('https://hx.404fwf.cn/notifyBoard/AlibabaPuHuiTi.ttf');
+// }
+
+view {
+  box-sizing: border-box;
+}
+
 .index_wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 750rpx;
   height: 100vh;
   background-color: #fff;
+
+  .header-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 250rpx;
+    background-color: aqua;
+  }
+
+  /** 搜索框 */
+  .search {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 690rpx;
+    height: 80rpx;
+    padding: 0 30rpx 0 30rpx;
+    border: 5rpx solid black;
+    margin-top: -2vh;
+  }
+
+  /** 标题栏 */
+  .title_wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin: 15rpx 0 0 0;
+    padding: 0 30rpx 0 30rpx;
+
+    .title_wrapper__text {
+      font-size: 40rpx;
+      font-weight: 700;
+      font-family: AlibabaPuHuiTi;
+    }
+  }
+
+  .lists {
+    width: 100%;
+    height: calc(100vh - 230rpx - 80rpx - 80rpx);
+    overflow-y: scroll;
+  }
 }

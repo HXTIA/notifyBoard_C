@@ -1,16 +1,16 @@
-import exception from "./exception"
+import exception from './exception'
 
 interface IResultWrapBase<T> {
-  data: T,
+  data: T
   // header: object,
   // cookies: string,
-  msg: string,
-  code: number,
+  msg: string
+  code: number
   isSuccess: boolean
 }
 
 /** 业务响应包裹基础类 */
-class ResultWrapBase<T> implements Partial<IResultWrapBase<T>>{
+class ResultWrapBase<T> implements Partial<IResultWrapBase<T>> {
   private _data?: T
   private _msg?: string
   private _code?: number
@@ -49,8 +49,8 @@ export interface IResultWrap<T> extends IResultWrapBase<T> {
   handleException: () => void
 }
 
-export class ResultWrap<T> extends ResultWrapBase<T> implements Partial<IResultWrap<T>>{
-  private _type: string;
+export class ResultWrap<T> extends ResultWrapBase<T> implements Partial<IResultWrap<T>> {
+  private _type: string
   constructor(params: Partial<IResultWrap<T>> & { type?: string }) {
     super(params)
     this._type = params?.type || 'success'
@@ -58,12 +58,12 @@ export class ResultWrap<T> extends ResultWrapBase<T> implements Partial<IResultW
 
   public handleException() {
     if (this.isSuccess) {
-      console.log('请求成功！没有异常可处理');
+      /* __PURE__ */ console.log('请求成功！没有异常可处理')
       return
     } else {
       const fn = this.chooseTargetHandle()
       if (!fn) {
-        console.warn('[❌]: 没有找到自动化处理的函数，请检查是否预先定义');
+        /* __PURE__ */ console.warn('[❌]: 没有找到自动化处理的函数，请检查是否预先定义')
       }
       fn(this)
     }
@@ -72,7 +72,7 @@ export class ResultWrap<T> extends ResultWrapBase<T> implements Partial<IResultW
   private chooseTargetHandle(): Function {
     const type = this._type
     const schema = `handle_${type}_exception`
-    console.log(' === 自动化错误处理schema为: === ', schema);
+    /* __PURE__ */ console.log(' === 自动化错误处理schema为: === ', schema)
     return exception[schema]
   }
 }

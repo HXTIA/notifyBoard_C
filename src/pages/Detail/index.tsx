@@ -1,6 +1,6 @@
 import { View } from '@tarojs/components'
 import React, { useEffect } from 'react'
-import { Authorize } from 'src/components/baseBuiltComp/HocWrap'
+import { ModalNotify } from 'src/components/baseBuiltComp/HocWrap'
 import { URL, goTo, query } from 'src/utils'
 import './index.module.scss'
 
@@ -26,4 +26,4 @@ const Index = () => {
   )
 }
 
-export default React.memo(Authorize(Index))
+export default React.memo(ModalNotify(Index))

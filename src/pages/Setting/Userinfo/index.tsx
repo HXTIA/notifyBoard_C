@@ -10,7 +10,13 @@ const Index = () => {
   return (
     <View>
       <View>编辑个人资料</View>
-      <Button onClick={() => goTo({ url, methodType, extraParams: { ...query() }, options: { authorize: false } })}>点击我</Button>
+      <Button
+        onClick={() =>
+          goTo({ url, methodType, extraParams: { ...query() }, options: { authorize: false } })
+        }
+      >
+        点击我
+      </Button>
     </View>
   )
 }

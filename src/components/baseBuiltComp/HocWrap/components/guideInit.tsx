@@ -13,23 +13,23 @@ const Index = ({ isLogin }: { isLogin: boolean }) => {
   const { run } = useAnimation({
     node: $('#GuideContainer__bgContainer__canvas'),
     template: JSON_MAP['forbidden'],
-    isAutoRun: false
+    isAutoRun: false,
   })
   useEffect(() => {
     run()
   }, [])
-  const notifyText = useMemo(() => !isLogin ? NO_LOGIN : NO_INFO, [isLogin])
-  const notifyBtnText = useMemo(() => !isLogin ? '去登陆' : '去完善', [isLogin])
+  const notifyText = useMemo(() => (!isLogin ? NO_LOGIN : NO_INFO), [isLogin])
+  const notifyBtnText = useMemo(() => (!isLogin ? '去登陆' : '去完善'), [isLogin])
   const goToPage = useCallback(() => {
     goTo({
       url: URL.Initial,
       methodType: 'redirectTo',
       extraParams: {
-        ...query()
+        ...query(),
       },
       options: {
-        authorize: false
-      }
+        authorize: false,
+      },
     })
   }, [])
 
@@ -47,6 +47,5 @@ const Index = ({ isLogin }: { isLogin: boolean }) => {
     </View>
   )
 }
-
 
 export default React.memo(Index)

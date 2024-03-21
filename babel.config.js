@@ -29,6 +29,7 @@ module.exports = {
         style: () => '@taroify/icons/style',
       },
       '@taroify/icons',
-    ]
+    ],
+    ['@babel/plugin-proposal-decorators', { 'legacy': true }]
   ],
 }

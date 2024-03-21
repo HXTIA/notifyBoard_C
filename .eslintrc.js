@@ -1,11 +1,14 @@
 module.exports = {
   extends: [
-    "taro/react",
+    'taro/react',
   ],
   rules: {
-    "react/jsx-uses-react": "off",
-    "react/react-in-jsx-scope": "off",
+    'react/jsx-uses-react': 'off',
+    'react/react-in-jsx-scope': 'off',
     'import/no-commonjs': 'off',
+    'semi': ['error', 'never'],
+    'max-len': ['error', { 'code': 110 }],
+    'quotes': ['error', 'single'],
   },
   parserOptions: {
     requireConfigFile: false,

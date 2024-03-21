@@ -24,7 +24,7 @@ const showToast = (param: TToastOptions | string) => {
       ...(param as TToastOptions),
     }
   }
-  return Taro.showToast(dptOps)
+  return Promise.resolve(Taro.showToast(dptOps))
 }
 
 export { showToast }

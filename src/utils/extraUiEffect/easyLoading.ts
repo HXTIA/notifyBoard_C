@@ -1,7 +1,6 @@
 import Taro from '@tarojs/taro'
 import { isObj, isStr } from '../jsBase'
 
-
 export type TLoadingOptions = Parameters<typeof Taro.showLoading>[0]
 
 /**

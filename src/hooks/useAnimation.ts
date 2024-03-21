@@ -6,35 +6,45 @@ import { preloadResource, loadAnimation, TLoadAnimationReturnType, showToast } f
  * @param node 目标节点
  * @param template lottie-json模版
  */
-const useAnimation = ({ node, template, isAutoRun = true }: { node: Taro.SelectorQuery, template: string, isAutoRun?: boolean }) => {
+const useAnimation = ({
+  node,
+  template,
+  isAutoRun = true,
+}: {
+  node: Taro.SelectorQuery
+  template: string
+  isAutoRun?: boolean
+}) => {
   const [instance, setInstance] = useState<TLoadAnimationReturnType>()
 
   /** 运行函数 */
   const run = useCallback(() => {
     if (instance) {
-      console.log(' === 取消重复运行lottie === ');
+      /* __PURE__ */ console.log(' === 取消重复运行lottie === ')
       return
     }
-    preloadResource(template, false).then(res => {
-      setTimeout(async () => {
-        console.log(' === lottie执行，当前模版为 === ', template);
-        const ins = await loadAnimation(node, { animationData: res.data })
-        setInstance(ins)
-      }, 0)
-    }).catch(err => {
-      showToast({ title: '网络开小差了～ 请检查网络', icon: 'none' })
-    })
+    preloadResource(template, false)
+      .then((res) => {
+        setTimeout(async () => {
+          /* __PURE__ */ console.log(' === lottie执行，当前模版为 === ', template)
+          const ins = await loadAnimation(node, { animationData: res.data })
+          setInstance(ins)
+        }, 0)
+      })
+      .catch((err) => {
+        showToast({ title: '网络开小差了～ 请检查网络', icon: 'none' })
+      })
   }, [instance])
 
   /** 如果配置为自动运行在挂载的时候就执行 */
   useEffect(() => {
     if (isAutoRun) {
-      console.log('自动执行');
+      /* __PURE__ */ console.log('自动执行')
       run()
     }
     return () => {
       if (instance) {
-        console.log(' === lottie实例销毁 === ', instance);
+        /* __PURE__ */ console.log(' === lottie实例销毁 === ', instance)
         instance.destroy()
       }
     }

@@ -1,5 +1,5 @@
-import { useMemo } from "react"
-import { PerfTacker, query } from "src/utils"
+import { useMemo } from 'react'
+import { PerfTacker, query } from 'src/utils'
 
 /** 性能埋点hooks */
 const usePerfTrack = (cid?: string) => {

@@ -7,7 +7,12 @@ const Index = () => {
     <View className='index'>
       <Text>我的页面</Text>
       <View className='list'>
-        <View className='list__item' onClick={() => goTo({ url: URL.Setting, methodType: 'navigateTo' })} >去设置</View>
+        <View
+          className='list__item'
+          onClick={() => goTo({ url: URL.Setting, methodType: 'navigateTo' })}
+        >
+          去设置
+        </View>
       </View>
     </View>
   )
