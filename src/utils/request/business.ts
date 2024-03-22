@@ -6,6 +6,7 @@ import { baseRequest, TExtraRequestParams, type TCustomRequestParams } from './r
 import { pipelineResCheck } from './check'
 import { isUndefined } from '../jsBase'
 import { showToast } from '../extraUiEffect'
+import { trackAPIError } from '../perfTrack'
 
 const baseExtraConfig: TExtraRequestParams = {
   /** 默认需要展示loading */
@@ -37,7 +38,7 @@ export const request = <T, U extends string | TGeneralObject>(
 
       const isError = ['data', 'code', 'msg', 'type'].every((v) => isUndefined(originData[v]))
       if (isError) {
-        console.log(' === 出错了，不是业务问题，检查接口及网络 === ')
+        /* __PURE__ */ console.log(' === 出错了，不是业务问题，检查接口及网络 === ')
         throw new Error('params are undefined')
       }
 
@@ -56,6 +57,15 @@ export const request = <T, U extends string | TGeneralObject>(
           mask,
         })
       }
+      if (!type) {
+        /** 上报错误埋点 */
+        trackAPIError({
+          token: getStorage<IUserInfo>('userInfo').token || 'noLogin',
+          api: params.url,
+          reqData: params.data,
+          errMsg: msg,
+        })
+      }
     } catch (_err) {
       /** 系统直接抛错，和业务无关 */
       resInstance = new ResultWrap({
@@ -70,6 +80,13 @@ export const request = <T, U extends string | TGeneralObject>(
           mask,
         })
       }
+      /** 上报错误埋点 */
+      trackAPIError({
+        token: getStorage<IUserInfo>('userInfo').token || 'noLogin',
+        api: params.url,
+        reqData: params.data,
+        errMsg: _err,
+      })
     }
     resolve(resInstance)
   })
