@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import { RootState } from 'src/store'
-import { URL, goTo, query } from "src/utils";
-import showModal from "src/utils/extraUiEffect/easyModal";
+import { URL, goTo, query } from 'src/utils'
+import showModal from 'src/utils/extraUiEffect/easyModal'
 import ForbiddenComp from 'src/components/baseBuiltComp/Forbidden'
-import Loading from "../Loading";
+import Loading from '../Loading'
 import Guide from './components/guideInit'
 
 /** @HOC 校验登陆态 */
@@ -12,12 +12,9 @@ export const Authorize = (Component) => {
   return React.memo(() => {
     const state = useSelector((root: RootState) => root.common.system)
     if (!state.coolStartSuccess) {
-      return (
-        <Loading isShow />
-      )
+      return <Loading isShow />
     } else {
-      if (state.sessionStatus === 'ok' && state.hasAccountCompleted)
-        return <Component />
+      if (state.sessionStatus === 'ok' && state.hasAccountCompleted) return <Component />
       return <Guide isLogin={state.sessionStatus === 'ok'} />
     }
   })
@@ -28,12 +25,9 @@ export const Forbidden = (Component) => {
   return React.memo(() => {
     const state = useSelector((root: RootState) => root.common)
     if (!state.system.coolStartSuccess) {
-      return (
-        <Loading isShow />
-      )
+      return <Loading isShow />
     } else {
-      if (state.userInfo.isBindManage)
-        return <Component />
+      if (state.userInfo.isBindManage) return <Component />
       return <ForbiddenComp />
     }
   })
@@ -43,17 +37,22 @@ export const Forbidden = (Component) => {
 export const ModalNotify = (Component: any) => {
   return React.memo(() => {
     useEffect(() => {
-      showModal({ title: '登录提示', content: '您当前还没有登陆，未登录无法正常使用小程序 现在去登陆吗？', cancelText: '稍后登陆', confirmText: '现在登陆' }).then(res => {
+      showModal({
+        title: '登录提示',
+        content: '您当前还没有登陆，未登录无法正常使用小程序 现在去登陆吗？',
+        cancelText: '稍后登陆',
+        confirmText: '现在登陆',
+      }).then((res) => {
         if (res) {
           goTo({
             url: URL.Initial,
             methodType: 'redirectTo',
             extraParams: {
-              ...query()
+              ...query(),
             },
             options: {
-              authorize: false
-            }
+              authorize: false,
+            },
           })
         }
       })
@@ -61,5 +60,3 @@ export const ModalNotify = (Component: any) => {
     return <Component />
   })
 }
-
-

@@ -1,5 +1,5 @@
-import Taro from "@tarojs/taro";
-import { hideLoading, showLoading } from "../extraUiEffect";
+import Taro from '@tarojs/taro'
+import { hideLoading, showLoading, showToast } from '../extraUiEffect'
 
 /** Taro.request入参类型 */
 type TTaroRequestParams<T, U> = Parameters<typeof Taro.request<T, U>>[0]
@@ -9,18 +9,19 @@ export type TExtraRequestParams = {
   /** 请求是否静默[是否需要loading] */
   silent?: boolean
   /** loading文案 */
-  loadingTitle?: string,
+  loadingTitle?: string
   /** loading是否需要遮罩 */
   loadingNeedMask?: boolean
 }
 
 /** 自定义请求参数类型 */
-export type TCustomRequestParams<T, U> = TTaroRequestParams<TResponseBodyDataExtends<T>, U> & TExtraRequestParams
+export type TCustomRequestParams<T, U> = TTaroRequestParams<TResponseBodyDataExtends<T>, U> &
+  TExtraRequestParams
 /** 响应体类型约束 */
 export type TResponseBodyDataExtends<T> = {
-  code: number;
-  msg: string;
-  data: T extends string | TaroGeneral.IAnyObject | ArrayBuffer ? T : any;
+  code: number
+  msg: string
+  data: T extends string | TaroGeneral.IAnyObject | ArrayBuffer ? T : any
 }
 /** 响应类型 */
 export type TResponseType<T> = Taro.request.SuccessCallbackResult<TResponseBodyDataExtends<T>>
@@ -30,12 +31,14 @@ export type TResponseType<T> = Taro.request.SuccessCallbackResult<TResponseBodyD
  * @param {TCustomRequestParams} options - 请求入参
  * @returns
  */
-export const baseRequest = <T, U extends object | string>(options: TCustomRequestParams<T, U>): Promise<TResponseType<T>> => {
+export const baseRequest = <T, U extends object | string>(
+  options: TCustomRequestParams<T, U>,
+): Promise<TResponseType<T>> => {
   if (!options.silent) {
     const { loadingTitle: title, loadingNeedMask: mask } = options
     showLoading({
       title: title as string,
-      mask
+      mask,
     })
   }
 
@@ -46,7 +49,7 @@ export const baseRequest = <T, U extends object | string>(options: TCustomReques
       fail: reject,
       complete: () => {
         !options.silent && hideLoading()
-      }
+      },
     })
   })
 }

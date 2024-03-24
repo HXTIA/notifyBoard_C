@@ -6,7 +6,7 @@
  * ```
  */
 export const BUSINESS_API_ROOT_PATH = {
-  API: '/api'
+  API: '/m1/4182382-0-default/api',
 }
 
 /**
@@ -16,7 +16,7 @@ export const BUSINESS_API_ROOT_PATH = {
  * ```
  */
 export const BUSINESS_DOMAIN = {
-  BUSINESS: process.env.TARO_APP_DOMAIN
+  BUSINESS: process.env.TARO_APP_DOMAIN,
 }
 
 /**
@@ -37,6 +37,4 @@ export const enum STATUS_CODE {
  * [无用可删]
  * 哪些api不需要check token
  */
-export const NO_CHECK_TOKEN_WHITE_LIST = [
-  '/login',
-]
+export const NO_CHECK_TOKEN_WHITE_LIST = ['/login']

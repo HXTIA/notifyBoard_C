@@ -1,48 +1,38 @@
-import { TGeneralObject } from "src/types"
-import Taro from "@tarojs/taro"
-import { DefinedEnumKeys } from "../types/enumHelper"
-import { request } from "./business"
-import { BUSINESS_API_ROOT_PATH, BUSINESS_DOMAIN } from "./constants"
-import { TCustomRequestParams, TResponseType, baseRequest } from "./request"
+import { TGeneralObject } from 'src/types'
+import Taro from '@tarojs/taro'
+import { DefinedEnumKeys } from '../types/enumHelper'
+import { request } from './business'
+import { BUSINESS_API_ROOT_PATH, BUSINESS_DOMAIN } from './constants'
+import { TCustomRequestParams, TResponseType, baseRequest } from './request'
+
+const hofBaseRequest = <T>(
+  params: TCustomRequestParams<T, TGeneralObject>,
+  type: keyof Taro.request.Method,
+) => {
+  return request<T, TGeneralObject>({
+    ...params,
+    method: type,
+  })
+}
 
 /** get请求 */
-export const Get = <T>({ url, silent, data }: TCustomRequestParams<T, TGeneralObject>) => {
-  return request<T, TGeneralObject>({
-    method: 'GET',
-    url,
-    data,
-    silent,
-  })
+export const Get = <T>(params: TCustomRequestParams<T, TGeneralObject>) => {
+  return hofBaseRequest<T>(params, 'GET')
 }
 
 /** post请求 */
-export const Post = <T>({ url, silent, data }: TCustomRequestParams<T, TGeneralObject>) => {
-  return request<T, TGeneralObject>({
-    method: 'POST',
-    url,
-    data,
-    silent,
-  })
+export const Post = <T>(params: TCustomRequestParams<T, TGeneralObject>) => {
+  return hofBaseRequest<T>(params, 'POST')
 }
 
 /** put请求 */
-export const Put = <T>({ url, silent, data }: TCustomRequestParams<T, TGeneralObject>) => {
-  return request<T, TGeneralObject>({
-    method: 'PUT',
-    url,
-    data,
-    silent,
-  })
+export const Put = <T>(params: TCustomRequestParams<T, TGeneralObject>) => {
+  return hofBaseRequest<T>(params, 'PUT')
 }
 
 /** delete请求 */
-export const Delete = <T>({ url, silent, data }: TCustomRequestParams<T, TGeneralObject>) => {
-  return request<T, TGeneralObject>({
-    method: 'DELETE',
-    url,
-    data,
-    silent,
-  })
+export const Delete = <T>(params: TCustomRequestParams<T, TGeneralObject>) => {
+  return hofBaseRequest<T>(params, 'DELETE')
 }
 
 /**
@@ -59,7 +49,7 @@ export function preloadResource(url: string): Promise<boolean>
  */
 export function preloadResource<T>(url: string, isImg: boolean): Promise<TResponseType<T>>
 export function preloadResource<T>(url: string, isImg = true) {
-  console.log(' === 预加载静态资源 === ');
+  /* __PURE__ */ console.log(' === 预加载静态资源 === ')
   if (isImg) {
     return new Promise<boolean>((resolve) => {
       const canvas = Taro.createOffscreenCanvas({ width: 300, height: 150 })
@@ -72,7 +62,7 @@ export function preloadResource<T>(url: string, isImg = true) {
     return baseRequest<T, any>({
       url,
       method: 'GET',
-      silent: true
+      silent: true,
     })
   }
 }
@@ -83,22 +73,23 @@ export { request }
 /**
  * 构造请求url
  */
-export const requestUrlCreator = <T extends {
-  absolutePath: string,
-  rootPath?: DefinedEnumKeys<typeof BUSINESS_API_ROOT_PATH>,
-  domain?: DefinedEnumKeys<typeof BUSINESS_DOMAIN>
-}>({
+export const requestUrlCreator = <
+  T extends {
+    absolutePath: string
+    rootPath?: DefinedEnumKeys<typeof BUSINESS_API_ROOT_PATH>
+    domain?: DefinedEnumKeys<typeof BUSINESS_DOMAIN>
+  },
+>({
   absolutePath,
   rootPath = 'API',
-  domain = 'BUSINESS'
+  domain = 'BUSINESS',
 }: T): string => {
   return BUSINESS_DOMAIN[domain] + BUSINESS_API_ROOT_PATH[rootPath] + absolutePath
 }
-
 
 export default {
   Get,
   Post,
   Put,
-  Delete
+  Delete,
 }

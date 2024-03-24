@@ -7,7 +7,6 @@ import { Get, getStorage, preloadResource, requestUrlCreator } from './utils'
 import { IUserInfo } from './common-model'
 import { JSON_MAP } from './static/SVG/lottie-map'
 
-
 function App(props) {
   useError((err) => {
     console.log('错了', err)
@@ -31,21 +30,34 @@ function App(props) {
     let userinfo: any
     if (token) {
       try {
-        const wrap = await Get<{ [key in string]: any }>({ url: requestUrlCreator({ absolutePath: '/userInfo' }), silent: true })
+        const wrap = await Get<{ [key in string]: any }>({
+          url: requestUrlCreator({ absolutePath: '/userInfo' }),
+          silent: true,
+        })
         userinfo = wrap.isSuccess && wrap.data
       } catch (err) {
-        console.log(' === 获取用户信息请求错误 === ', err);
+        console.log(' === 获取用户信息请求错误 === ', err)
       }
     }
 
     /** 预加载静态资源 */
     preloadResource(JSON_MAP['forbidden'], false)
 
+    /** 预加载字体 */
+    Taro.loadFontFace({
+      family: 'AlibabaPuHuiTi',
+      source: 'url("https://hx.404fwf.cn/notifyBoard/AlibabaPuHuiTi.ttf")',
+    })
+
     // store.dispatch.common.update_UserInfo({ ...userinfo })
     // TODO: 需要更新为实际的userinfo参数
-    store.dispatch.common.update_SystemInfo({ sessionStatus: isExpired ? 'fail' : 'ok', coolStartSuccess: true, hasAccountCompleted: !!(userinfo || false) })
+    store.dispatch.common.update_SystemInfo({
+      sessionStatus: isExpired ? 'fail' : 'ok',
+      coolStartSuccess: true,
+      hasAccountCompleted: !!(userinfo || false),
+    })
 
-    console.log('==== 应用冷启动初始化成功！ ====');
+    console.log('==== 应用冷启动初始化成功！ ====')
   })
   return (
     // 在入口组件不会渲染任何内容，但我们可以在这里做类似于状态管理的事情

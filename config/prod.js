@@ -2,7 +2,9 @@ module.exports = {
   env: {
     NODE_ENV: '"production"'
   },
-  defineConstants: {},
+  defineConstants: {
+    isDev: false
+  },
   mini: {
     /** 自动提取了chunk */
     // commonChunks: {},

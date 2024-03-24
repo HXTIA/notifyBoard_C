@@ -1,11 +1,14 @@
-import Taro from "@tarojs/taro";
-import { ISystemInfo, IUserInfo } from "src/common-model";
-import { isObj } from "./jsBase";
+import Taro from '@tarojs/taro'
+import { ISystemInfo, IUserInfo } from 'src/common-model'
+import { isObj } from './jsBase'
 
 /** 可存储的storage接口 */
-interface IStorageData {
-  userInfo: IUserInfo;
-  system: ISystemInfo
+export interface IStorageData {
+  userInfo: IUserInfo
+  system: ISystemInfo & {
+    /** 是否弹过未授权消息 */
+    isPopNoAuthorizeMessage?: boolean
+  }
 }
 type TStorageKey = keyof IStorageData
 
@@ -22,7 +25,7 @@ export const getStorage = <T>(key: TStorageKey): T => {
 export const setStorage = <T extends TStorageKey>(
   key: T,
   data: IStorageData[T],
-  action: 'cover' | 'diff' = 'cover'
+  action: 'cover' | 'diff' = 'cover',
 ) => {
   if (action === 'diff') {
     const targetData = getStorage(key)

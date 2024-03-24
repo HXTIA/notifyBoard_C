@@ -1,10 +1,10 @@
 export default definePageConfig({
   /** 页面标题 */
-  navigationBarTitleText: '首页',
+  navigationBarTitleText: '',
   /** 是否开启下拉刷新 */
-  enablePullDownRefresh: true,
+  enablePullDownRefresh: false,
   /** 自定义导航栏 */
-  navigationStyle: 'custom',
+  navigationStyle: 'default',
   /** 开启朋友分享 */
   enableShareAppMessage: true,
   /** 开启朋友圈分享 */
@@ -14,5 +14,7 @@ export default definePageConfig({
   /** 非首页设置返回Home */
   homeButton: false,
   /** 下拉loading颜色 dark | light */
-  backgroundTextStyle: 'dark'
+  backgroundTextStyle: 'dark',
+  onReachBottomDistance: 50,
+  disableScroll: true,
 })

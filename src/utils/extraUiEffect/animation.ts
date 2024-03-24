@@ -13,27 +13,45 @@ export type TLoadAnimationReturnType = ReturnType<typeof lottie.loadAnimation>
 /** lottie utils */
 export const loadAnimation = (node: Taro.SelectorQuery, options: TLoadAnimationParameter) => {
   return new Promise<TLoadAnimationReturnType>((resolve) => {
-    node.exec((res: any) => {
-      const canvas = res[0].node
-      const context = canvas.getContext('2d')
+    const fn = () => {
+      node.exec((res: any) => {
+        if (!res[0].node) {
+          loop()
+        }
+        const canvas = res[0].node
+        const context = canvas.getContext('2d')
 
-      /** 处理像素比导致lottie模糊问题 */
-      const dpr = Taro.getSystemInfoSync().pixelRatio
-      canvas.width = canvas.width * dpr
-      canvas.height = canvas.height * dpr
-      context.scale(dpr, dpr)
+        /** 处理像素比导致lottie模糊问题 */
+        const dpr = Taro.getSystemInfoSync().pixelRatio
+        canvas.width = canvas.width * dpr
+        canvas.height = canvas.height * dpr
+        context.scale(dpr, dpr)
 
-      lottie.setup(canvas)
-      const lottieIns = lottie.loadAnimation({
-        rendererSettings: {
-          progressiveLoad: true,
-          context,
-        },
-        autoplay: true,
-        loop: true,
-        ...options,
+        lottie.setup(canvas)
+        const lottieIns = lottie.loadAnimation({
+          rendererSettings: {
+            progressiveLoad: true,
+            context,
+          },
+          autoplay: true,
+          loop: true,
+          ...options,
+        })
+        resolve(lottieIns)
       })
-      resolve(lottieIns)
-    })
+    }
+
+    const loop = () => {
+      Taro.nextTick(() => {
+        if (!node) {
+          loop()
+          /* __PURE__ */ console.log(' === 目前还没有node节点，轮训.... === ')
+        } else {
+          /* __PURE__ */ console.log(' === 已有节点，开始渲染 === ')
+          fn()
+        }
+      })
+    }
+    loop()
   })
 }

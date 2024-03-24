@@ -1,19 +1,17 @@
-import { TResponseType } from "./request";
-import { STATUS_CODE } from "./constants";
-import { isBoolean } from "../jsBase";
-import { EXCEPTION_HANDLE } from "./exception";
-
+import { TResponseType } from './request'
+import { STATUS_CODE } from './constants'
+import { isBoolean } from '../jsBase'
+import { EXCEPTION_HANDLE } from './exception'
 
 /** 检查流水线列表 */
 const CHECK_LIST = [checkStatusCodeSuccessful]
 
-
 /** 执行流水线检查响应信息 */
-export const pipelineResCheck = <T>(responseData: TResponseType<T>): TResponseType<T> & { type?: string } => {
+export const pipelineResCheck = <T>(
+  responseData: TResponseType<T>,
+): TResponseType<T> & { type?: string } => {
   const isOk = CHECK_LIST.reduce((pre, cur) => {
-    if (isBoolean(pre) && !!pre)
-      return cur(responseData)
-
+    if (isBoolean(pre) && !!pre) return cur(responseData)
     return pre
   }, true)
 

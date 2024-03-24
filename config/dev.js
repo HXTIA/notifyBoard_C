@@ -4,6 +4,7 @@ module.exports = {
   },
   // 定义编译常量
   defineConstants: {
+    isDev: true
   },
   mini: {},
   h5: {}
