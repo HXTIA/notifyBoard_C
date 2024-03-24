@@ -1,4 +1,5 @@
 .list_wrapper {
   width: 100%;
-  height: calc(100vh - 230rpx - 80rpx - 80rpx);
+  min-height: calc(100vh - 80rpx - 80rpx);
+  overflow-y: scroll;
 }

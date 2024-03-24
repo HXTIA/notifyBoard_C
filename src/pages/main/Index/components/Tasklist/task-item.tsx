@@ -15,7 +15,7 @@ import { IndexContextProvider, TASK_STATUS, taskInterUrl, tplIds } from '../../c
 import './item.module.scss'
 
 /** 任务状态枚举 */
-/** TODO: 根据状态吗需要排序 */
+/** TODO: 根据状态码需要排序 */
 const statusMap: {
   [key in number]: {
     text: string
@@ -169,6 +169,7 @@ class Index extends React.PureComponent<TTaskItemProps, TTaskItemState> {
     }
   }
 
+  /** 处理点击箭头和滑动的同步 */
   open = () => {
     let openDire = this.state.openDire
     openDire = openDire === 'outside' ? 'right' : 'outside'

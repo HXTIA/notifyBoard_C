@@ -6,7 +6,7 @@
  * ```
  */
 export const BUSINESS_API_ROOT_PATH = {
-  API: '/m1',
+  API: '/m1/4182382-0-default/api',
 }
 
 /**

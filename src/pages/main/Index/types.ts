@@ -1,3 +1,6 @@
+import React from 'react'
+import useRequest from 'src/hooks/useRequest'
+
 /** 任务的类型 */
 export type TTaskItem = {
   title: string
@@ -25,8 +28,15 @@ export type TFilterType = 'all' | 'resolve' | 'timeout' | 'un_expired'
 export type TPropsThrough = {
   /** 当前的筛选模式 */
   filterType?: TFilterType
+  /** 页数 */
+  page: number
+  /** 搜索文字 */
+  searchText?: string
   /** 更新函数 */
   updateList?: (lists: TTaskList) => void
   /** 请求函数 */
-  // requestFn?: Function
+  requestFn?: ReturnType<typeof useRequest<TTaskList>>['run']
 }
+
+/** useState更新函数的类型 */
+export type TStateHookUpdateFn<T> = React.Dispatch<React.SetStateAction<T>>

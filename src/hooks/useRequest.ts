@@ -2,8 +2,6 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { TGeneralObject } from 'src/types'
 import request from 'src/utils/request'
 import { IResultWrap } from 'src/utils/request/Result'
-import { getStorage, trackAPIError } from 'src/utils'
-import { IUserInfo } from 'src/common-model'
 import usePerfTrack from './usePerfTrack'
 
 /** 第一个入参控制请求 */
@@ -22,12 +20,12 @@ type TRequestFn = () => {
 type TRequestOptions = {
   /** 是否自动执行 */
   auto?: boolean
-  /** 是否上报性能埋点 */
-  isReportPerfTrack?: boolean
   /** success回调，可用于性能埋点 */
-  success?: () => void
+  complete?: () => void
   /** 请求前逻辑 */
   preFetch?: () => void
+  /** 依赖数组 */
+  deps?: any[]
 }
 
 /**
@@ -49,51 +47,56 @@ type TRequestOptions = {
  *  )
  * ```
  */
-const useRequest = <T>(
-  requestFn: TRequestFn,
-  options: TRequestOptions = { auto: true, isReportPerfTrack: true },
-) => {
-  const [loading, setLoading] = useState<boolean>(!!options.auto)
+const useRequest = <T>(requestFn: TRequestFn, options?: TRequestOptions) => {
+  const { deps = [], auto = true, complete = () => {}, preFetch = () => {} } = options || {}
+  const [loading, setLoading] = useState<boolean>(!!auto)
   const [data, setData] = useState<T>()
   const [err, setErr] = useState<any>()
   const PerfTackerInstance = usePerfTrack()
-  const { type, url, reqData, silent } = useMemo(() => requestFn(), [])
+  const { type, url, reqData, silent } = useMemo(() => requestFn(), [deps])
 
-  const run = useCallback(async (params?: TGeneralObject) => {
-    let res: Partial<IResultWrap<T>> = null as any
-    /** 获取请求函数 */
-    const fn = request[type]
-    const req = {
-      ...(reqData || {}),
-      ...(params || {}),
-    }
-    /* __PURE__ */ console.log(' === 本次请求数据 === ', req)
+  const run = useCallback(
+    async (params?: TGeneralObject) => {
+      setLoading(true)
+      preFetch()
+      let res: Partial<IResultWrap<T>> = null as any
+      /** 获取请求函数 */
+      const fn = request[type]
+      const req = {
+        ...(reqData || {}),
+        ...(params || {}),
+      }
+      /* __PURE__ */ console.log(' === 本次请求数据 === ', req)
 
-    /** 请求开始 */
-    PerfTackerInstance.requestBegin()
-    res = await fn<T>({ url, data: req, silent })
-    /* __PURE__ */ console.log(' === 响应返回 === ', res)
+      /** 请求开始 */
+      PerfTackerInstance.requestBegin()
+      res = await fn<T>({ url, data: req, silent })
+      /* __PURE__ */ console.log(' === 响应返回 === ', res)
 
-    /** 校验是否成功 */
-    if (res.isSuccess) {
-      setData(res.data)
-      /** 请求完成 */
-      PerfTackerInstance.responseReady({ api: url, data: res.data as any })
-    } else {
-      /** 请求没有成功，错误信息可以用errMsg取出 */
-      setErr(res.msg)
-      res.handleException && res.handleException()
-    }
-    setLoading(false)
-
-    return res.data
-  }, [])
+      /** 校验是否成功 */
+      if (res.isSuccess) {
+        setData(res.data)
+        /** 请求完成 */
+        PerfTackerInstance.responseReady({ api: url, data: res.data as any })
+      } else {
+        /** 请求没有成功，错误信息可以用errMsg取出 */
+        setErr(res.msg)
+        res.handleException && res.handleException()
+      }
+      setTimeout(() => {
+        setLoading(false)
+      }, 200)
+      complete && complete()
+      return res.data
+    },
+    [...deps, PerfTackerInstance],
+  )
 
   useEffect(() => {
-    if (options.auto) {
+    if (auto) {
       run()
     }
-  }, [options.auto, run])
+  }, [run])
 
   return {
     loading,

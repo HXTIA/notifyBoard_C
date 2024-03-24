@@ -3,16 +3,18 @@ import { requestUrlCreator } from 'src/utils'
 import { TPropsThrough } from './types'
 
 /** context props透传 https://zh-hans.react.dev/learn/passing-data-deeply-with-context#  */
-export const IndexContextProvider = createContext<TPropsThrough>({})
+export const IndexContextProvider = createContext<TPropsThrough>({
+  page: 0,
+})
 
 /** 列表数据的基础路径 */
 export const getListInterUrl = requestUrlCreator({
-  absolutePath: '/4182382-0-default/lists' /** TODO: 需要替换,mock路径 */,
+  absolutePath: '/lists' /** TODO: 需要替换,mock路径 */,
 })
 
 /** 任务数据基础路径 */
 export const taskInterUrl = requestUrlCreator({
-  absolutePath: '/4182382-0-default/tasks',
+  absolutePath: '/tasks',
 })
 
 /** 需要被订阅的模版 */

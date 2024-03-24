@@ -1,71 +1,57 @@
-import { Button, ScrollView, View } from '@tarojs/components'
-import React, { useCallback, useContext, useMemo, useState } from 'react'
-import { Divider, Empty } from '@taroify/core'
-import useRequest from 'src/hooks/useRequest'
+import { Button, View } from '@tarojs/components'
+import React, { FC, useCallback, useContext, useMemo, useState } from 'react'
+import { Divider, Empty, List, PullRefresh } from '@taroify/core'
 import TaskItem from './task-item'
-import { TTaskItem, TTaskList } from '../../types'
+import { TStateHookUpdateFn, TTaskItem, TTaskList } from '../../types'
+import { IndexContextProvider } from '../../common'
 import './list.module.scss'
-import { IndexContextProvider, getListInterUrl } from '../../common'
 
-let time = 0
-const Index = ({ lists }: { lists: TTaskList }) => {
-  const { updateList, filterType } = useContext(IndexContextProvider)
+const Index: FC<{ lists: TTaskList; setPage: TStateHookUpdateFn<number> }> = ({
+  lists,
+  setPage,
+}) => {
+  /** 获取context透传 */
+  const { updateList, filterType, page, requestFn } = useContext(IndexContextProvider)
   /** 是否正在刷新 */
   const [isRefresh, setRefreshStatus] = useState<boolean>(false)
-  /** 当前页数 */
-  const [page, setPage] = useState<number>(1)
-  /** 请求能力 */
-  const { run } = useRequest<TTaskList>(
-    () => ({
-      type: 'Get',
-      reqData: {},
-      url: getListInterUrl,
-      silent: true,
-    }),
-    { auto: false },
-  )
   /** 能否展示列表 */
   const isCanShowList = useMemo(() => lists && lists.length, [lists])
 
-  /** 下拉刷新处理函数 */
+  /** 加载函数：下拉刷新 */
   const pullDownRefreshList = useCallback(async () => {
     console.log(' === 下拉刷新ing === ')
     setRefreshStatus(true)
-    const res = await run({ page: 1, time: 2 })
+    const res = await requestFn!({ page: 0 })
     setTimeout(() => {
       setRefreshStatus(false)
       console.log(' === 下拉刷新结束 === ')
+      setPage(0)
     }, 200)
     if (res) {
       updateList!(res)
     }
-  }, [page])
+  }, [requestFn, setPage, updateList])
 
-  /** 上拉加载 */
+  /** 加载函数：触底加载「目前通过点击按钮触发」 */
   const pullUpLoad = useCallback(async () => {
     if (page < 0 || isRefresh) {
       return
     }
-    console.log(' === 上拉加载ing === ')
-    /** 使用静态锁节流请求 */
+    console.log(' === 继续加载ing === ')
+    /** 使用Mutex锁节流请求 */
     setRefreshStatus(true)
-    const res = await run({ page: 1, time: 2 })
+    const res = await requestFn!({ page: page + 1 })
     if (res && res.length) {
-      time += 1
+      /** 更新数据 & 设置当前页 */
       updateList!([...lists, ...res])
-      /** TODO: 替换,暂时放在这只是为了看到底样式 */
-      if (time < 2) {
-        setPage(page + 1)
-      } else {
-        setPage(-1)
-      }
-      /** 解除静态锁 */
+      setPage(page + 1)
+      /** 解除Mutex锁 */
       setRefreshStatus(false)
     } else {
-      console.log(' === 下拉结束到底了 === ')
+      console.log(' === 加载结束到底了 === ')
       setPage(-1)
     }
-  }, [page, isRefresh, lists])
+  }, [page, isRefresh, requestFn, updateList, lists, setPage])
 
   /**
    * 任务细则处理函数
@@ -104,59 +90,51 @@ const Index = ({ lists }: { lists: TTaskList }) => {
       )
       updateList!(copiedList)
     },
-    [lists],
+    [filterType, lists, updateList],
   )
-
   return (
-    <ScrollView
-      className='list_wrapper'
-      refresherEnabled
-      enableBackToTop
-      refresherTriggered={isRefresh}
-      onRefresherRefresh={pullDownRefreshList}
-      scrollY
-      scrollWithAnimation
-      lowerThreshold={80}
-      onScrollToLower={pullUpLoad}
-    >
-      {
-        /** 要求lists存在并且长度>0 */
-        isCanShowList ? (
-          <>
-            {lists.map((v, index) => {
-              return (
-                <View key={index}>
-                  <TaskItem taskInfo={v} handleEvents={handleTaskItemEvents} />
-                </View>
-              )
-            })}
-            {/* 没有更多页面了，增加分割线 */}
-            {page < 0 ? (
-              <Divider
-                style={{
-                  color: '#99e64d' /** TODO: 换颜色 */,
-                  borderColor: '#1989fa',
-                  padding: '0 30rpx',
-                  margin: '0',
-                  paddingBottom: '40rpx',
-                }}
-              >
-                到底了呦
-              </Divider>
-            ) : (
-              /* 用来兜底用户删了过多元素，从而无法触发触底的case */
-              <Button onClick={pullUpLoad}>加载更多</Button>
-            )}
-          </>
-        ) : (
-          /** lists不存在或lists长度为0 */
-          <Empty>
-            <Empty.Image />
-            <Empty.Description>暂时没有更多了</Empty.Description>
-          </Empty>
-        )
-      }
-    </ScrollView>
+    <PullRefresh loading={isRefresh} onRefresh={pullDownRefreshList}>
+      {/* TODO: 暂时取消上拉加载 */}
+      <List>
+        {
+          /** 要求lists存在并且长度>0 */
+          isCanShowList ? (
+            <>
+              {lists.map((v, index) => {
+                return (
+                  <View key={index}>
+                    <TaskItem taskInfo={v} handleEvents={handleTaskItemEvents} />
+                  </View>
+                )
+              })}
+              {/* 没有更多页面了，增加分割线 */}
+              {page < 0 ? (
+                <Divider
+                  style={{
+                    color: '#99e64d' /** TODO: 换颜色 */,
+                    borderColor: '#1989fa',
+                    padding: '0 30rpx',
+                    margin: '0',
+                    paddingBottom: '40rpx',
+                  }}
+                >
+                  到底了呦~
+                </Divider>
+              ) : (
+                /* 用来兜底用户删了过多元素，从而无法触发触底的case */
+                <Button onClick={pullUpLoad}>加载更多</Button>
+              )}
+            </>
+          ) : (
+            /** lists不存在或lists长度为0 */
+            <Empty>
+              <Empty.Image />
+              <Empty.Description>暂时没有更多了</Empty.Description>
+            </Empty>
+          )
+        }
+      </List>
+    </PullRefresh>
   )
 }
 

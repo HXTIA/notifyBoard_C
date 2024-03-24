@@ -1,6 +1,5 @@
 import { View } from '@tarojs/components'
 import React, { useEffect } from 'react'
-import { ModalNotify } from 'src/components/baseBuiltComp/HocWrap'
 import { URL, goTo, query } from 'src/utils'
 import './index.module.scss'
 
@@ -26,4 +25,4 @@ const Index = () => {
   )
 }
 
-export default React.memo(ModalNotify(Index))
+export default React.memo(Index)
